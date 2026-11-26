@@ -1,0 +1,162 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Loyalty Hub",
+        "description": "A Loyalty Hub a Home Assistantban tárolja a törzsvásárlói kártyáidat és utalványaidat.\n\n**Üzletlogók (Logo.dev)**: a Home Assistant minden logót egyszer tölt le és megtart; a telefonjaid soha nem lépnek kapcsolatba a Logo.dev-vel. A Logo.dev csak az üzlet domainjét kapja meg (pl. `coop.it`), a Home Assistant szervertől. Egy kulcs elég az egész háztartásnak.\n\n**Miért ajánlott a Logo.dev**: ez adja a legpontosabb üzletlogókat. Kulcs nélkül az üzlet saját weboldala néha kicsi vagy hibás ikont ad, a logoapi.sh pedig gyakran nem találja az üzletet. A kulcs ingyenes, és egy elég az egész otthonnak.\n\nÍgy szerezheted meg az ingyenes kulcsot:\n1. Nyisd meg a [logo.dev]({signup_url}) oldalt, és hozz létre egy ingyenes fiókot.\n2. Az irányítópulton nyisd meg az API-kulcsok részt.\n3. Másold ki a **Publishable key** kulcsot: `pk_` kezdetű.\n4. **Soha** ne használd a `sk_` Secret key kulcsot (elutasításra kerülne).\n5. Illeszd be az alábbi mezőbe (később: Beállítások > Eszközök és szolgáltatások > Loyalty Hub > Konfigurálás).\n6. Hagyd bekapcsolva „A kulcs tesztelése mentés előtt” lehetőséget, és mentsd.\n\nA kulcs nem kötelező: nélküle is feltölthetsz logókat, vagy használhatod a többi szolgáltatást. Az ország határozza meg az irányított hozzáadás üzletlistáját és a javasolt árösszehasonlító oldalakat.",
+        "data": {
+          "logo_dev_token": "Logo.dev publishable key (nem kötelező)",
+          "test_logo_dev_key": "A kulcs tesztelése mentés előtt",
+          "logo_providers": "Online logókereső szolgáltatások",
+          "default_country": "Ország"
+        },
+        "data_description": {
+          "logo_dev_token": "pk_ kezdetű. Később a beállításokban is megadhatod.",
+          "test_logo_dev_key": "Egy kérést küld a Logo.dev-nek az új kulccsal; ha nem működik, az űrlap nyitva marad.",
+          "logo_providers": "Ha mindet kikapcsolod, csak a feltöltött logók engedélyezettek.",
+          "default_country": "Üzletlista azoknak a felhasználóknak, akik nem választottak saját országot."
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "A Loyalty Hub már be van állítva.",
+      "already_configured": "A Loyalty Hub már be van állítva."
+    },
+    "error": {
+      "secret_key_not_allowed": "Ez egy secret key (sk_): soha ne illeszd be ide. Használd a publishable key-t (pk_).",
+      "invalid_key": "Ez nem érvényes Logo.dev publishable key (pk_ kezdetű).",
+      "key_rejected": "A Logo.dev elutasította ezt a kulcsot: ellenőrizd, hogy a teljes publishable key-t másoltad-e ki (pk_).",
+      "key_rate_limited": "A Logo.dev most korlátozza a kéréseket: próbáld újra néhány perc múlva.",
+      "cannot_connect": "Nem érhető el a Logo.dev a kulcs teszteléséhez: ellenőrizd a kapcsolatot, vagy kapcsold ki „A kulcs tesztelése mentés előtt” lehetőséget."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Loyalty Hub beállításai",
+        "description": "**Ország**: az irányított hozzáadás üzletlistája azoknak a felhasználóknak, akik nem választottak saját országot.\n\nÁrösszehasonlító oldalak: soronként egy, `Név|https://oldal/search?q={query}` formában. Javasolt a választott országhoz:\n{suggested_sites}\n\nOnline logókeresés: az üzlet domainjét (pl. `coop.it`) a Home Assistant küldi el a választott szolgáltatásnak. Mentett Logo.dev-kulcs: {token_status}\n\n**Üzletlogók (Logo.dev)**: a Home Assistant minden logót egyszer tölt le és megtart; a telefonjaid soha nem lépnek kapcsolatba a Logo.dev-vel. A Logo.dev csak az üzlet domainjét kapja meg (pl. `coop.it`), a Home Assistant szervertől. Egy kulcs elég az egész háztartásnak.\n\n**Miért ajánlott a Logo.dev**: ez adja a legpontosabb üzletlogókat. Kulcs nélkül az üzlet saját weboldala néha kicsi vagy hibás ikont ad, a logoapi.sh pedig gyakran nem találja az üzletet. A kulcs ingyenes, és egy elég az egész otthonnak.\n\nÍgy szerezheted meg az ingyenes kulcsot:\n1. Nyisd meg a [logo.dev]({signup_url}) oldalt, és hozz létre egy ingyenes fiókot.\n2. Az irányítópulton nyisd meg az API-kulcsok részt.\n3. Másold ki a **Publishable key** kulcsot: `pk_` kezdetű.\n4. **Soha** ne használd a `sk_` Secret key kulcsot (elutasításra kerülne).\n5. Illeszd be az alábbi mezőbe (később: Beállítások > Eszközök és szolgáltatások > Loyalty Hub > Konfigurálás).\n6. Hagyd bekapcsolva „A kulcs tesztelése mentés előtt” lehetőséget, és mentsd.\n\nA logók tárhelykorlátai az összes logóra együtt vonatkoznak, a jelenlegi és az előző verziókra is (egyenként max. 512 KB).\n\n**A rendszergazdák minden kártyát látnak és szerkesztenek**: alapból kikapcsolva. Bekapcsolva a rendszergazdák minden felhasználó kártyáit láthatják és szerkeszthetik, a privátokat is (törölni nem tudják őket, és azt sem változtathatják meg, kivel vannak megosztva), és minden felhasználó értesítést lát a panelen. Az értesítések és az exportálás mindig az adott felhasználó saját és megosztott kártyáira korlátozódnak.",
+        "data": {
+          "default_country": "Ország",
+          "price_compare": "Árösszehasonlító oldalak",
+          "expiry_warning_days": "Lejárati figyelmeztetés (nap)",
+          "logo_providers": "Online logókereső szolgáltatások",
+          "logo_dev_token": "Logo.dev publishable key",
+          "test_logo_dev_key": "A kulcs tesztelése mentés előtt",
+          "logo_dev_token_clear": "A mentett Logo.dev-kulcs eltávolítása",
+          "logo_max_files": "Logófájlok legnagyobb száma",
+          "logo_max_mb": "Logók legnagyobb tárhelye (MB)",
+          "admin_full_access": "A rendszergazdák minden kártyát látnak és szerkesztenek"
+        },
+        "data_description": {
+          "default_country": "A felhasználók a panel beállításaiban legfeljebb két saját országot választhatnak.",
+          "price_compare": "A `{query}` helyére a keresett szöveg kerül.",
+          "expiry_warning_days": "Értesítés az ennyi napon belül lejáró kártyákról és utalványokról.",
+          "logo_providers": "Hagyd üresen, ha csak a feltöltött logókat engedélyezed.",
+          "logo_dev_token": "Hagyd üresen a mentett kulcs megtartásához. pk_ kezdetű.",
+          "test_logo_dev_key": "Egy kérést küld a Logo.dev-nek az új kulccsal; ha nem működik, az űrlap nyitva marad.",
+          "logo_dev_token_clear": "Törli a mentett kulcsot.",
+          "logo_max_files": "Az e korlát feletti feltöltések és letöltések elutasításra kerülnek (1-2000). Minden kártya két fájlt tarthat meg (jelenlegi és előző logó).",
+          "logo_max_mb": "Az összes logó teljes mérete (1-300 MB).",
+          "admin_full_access": "A felhasználók értesítést látnak arról, hogy a rendszergazdák láthatják a privát kártyáikat."
+        }
+      }
+    },
+    "error": {
+      "invalid_price_sites": "Érvénytelen sorok: {invalid}. Használd a `Név|https://url` formát, és szerepeljen benne a `{query}`.",
+      "secret_key_not_allowed": "Ez egy secret key (sk_): soha ne illeszd be ide. Használd a publishable key-t (pk_).",
+      "invalid_key": "Ez nem érvényes Logo.dev publishable key (pk_ kezdetű).",
+      "key_rejected": "A Logo.dev elutasította ezt a kulcsot: ellenőrizd, hogy a teljes publishable key-t másoltad-e ki (pk_).",
+      "key_rate_limited": "A Logo.dev most korlátozza a kéréseket: próbáld újra néhány perc múlva.",
+      "cannot_connect": "Nem érhető el a Logo.dev a kulcs teszteléséhez: ellenőrizd a kapcsolatot, vagy kapcsold ki „A kulcs tesztelése mentés előtt” lehetőséget."
+    }
+  },
+  "selector": {
+    "logo_providers": {
+      "options": {
+        "logoapi": "logoapi.sh (kulcs nélkül)",
+        "logo_dev": "Logo.dev (a háztartás kulcsa kell hozzá)",
+        "website": "Az üzlet weboldala (favicon / ikon)"
+      }
+    },
+    "default_country": {
+      "options": {
+        "ae": "Egyesült Arab Emírségek",
+        "al": "Albánia",
+        "ar": "Argentína",
+        "at": "Ausztria",
+        "au": "Ausztrália",
+        "ba": "Bosznia-Hercegovina",
+        "be": "Belgium",
+        "bg": "Bulgária",
+        "bh": "Bahrein",
+        "br": "Brazília",
+        "ca": "Kanada",
+        "ch": "Svájc",
+        "cl": "Chile",
+        "co": "Kolumbia",
+        "cy": "Ciprus",
+        "cz": "Csehország",
+        "de": "Németország",
+        "dk": "Dánia",
+        "ee": "Észtország",
+        "eg": "Egyiptom",
+        "es": "Spanyolország",
+        "fi": "Finnország",
+        "fr": "Franciaország",
+        "gb": "Egyesült Királyság",
+        "ge": "Grúzia",
+        "gr": "Görögország",
+        "hk": "Hongkong",
+        "hr": "Horvátország",
+        "hu": "Magyarország",
+        "id": "Indonézia",
+        "ie": "Írország",
+        "il": "Izrael",
+        "in": "India",
+        "is": "Izland",
+        "it": "Olaszország",
+        "jo": "Jordánia",
+        "jp": "Japán",
+        "ke": "Kenya",
+        "kr": "Dél-Korea",
+        "kw": "Kuvait",
+        "lb": "Libanon",
+        "lt": "Litvánia",
+        "lu": "Luxemburg",
+        "lv": "Lettország",
+        "ma": "Marokkó",
+        "md": "Moldova",
+        "me": "Montenegró",
+        "mk": "Észak-Macedónia",
+        "mt": "Málta",
+        "mx": "Mexikó",
+        "my": "Malajzia",
+        "nl": "Hollandia",
+        "no": "Norvégia",
+        "nz": "Új-Zéland",
+        "om": "Omán",
+        "pe": "Peru",
+        "ph": "Fülöp-szigetek",
+        "pk": "Pakisztán",
+        "pl": "Lengyelország",
+        "pt": "Portugália",
+        "qa": "Katar",
+        "ro": "Románia",
+        "rs": "Szerbia",
+        "sa": "Szaúd-Arábia",
+        "se": "Svédország",
+        "sg": "Szingapúr",
+        "si": "Szlovénia",
+        "sk": "Szlovákia",
+        "th": "Thaiföld",
+        "tr": "Törökország",
+        "tw": "Tajvan",
+        "ua": "Ukrajna",
+        "us": "Egyesült Államok",
+        "vn": "Vietnám",
+        "za": "Dél-afrikai Köztársaság",
+        "other": "Egyéb (nincs üzletlista)"
+      }
+    }
+  }
+}

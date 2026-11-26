@@ -1,0 +1,1 @@
+import"./chunk-LO2NM3CE.js";var r=[{name:"Carrefour",domain:"carrefourlebanon.com",color:"#004E9F",category:"grocery",aliases:["Carta SpesAmica","SpesAmica PAYBACK","Carrefour Club","Carrefour Market","Carrefour Express"]}];export{r as SHOPS};

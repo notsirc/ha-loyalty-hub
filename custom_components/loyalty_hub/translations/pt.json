@@ -1,0 +1,162 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Loyalty Hub",
+        "description": "O Loyalty Hub guarda os seus cartões de fidelização e vales no Home Assistant.\n\n**Logótipos das lojas (Logo.dev)**: o Home Assistant descarrega cada logótipo uma só vez e guarda-o; os seus telefones nunca contactam o Logo.dev. Só o domínio da loja (ex. `coop.it`) é enviado ao Logo.dev, pelo servidor do Home Assistant. Basta uma chave para toda a casa.\n\n**Porque é recomendado o Logo.dev**: dá os logótipos de lojas mais precisos. Sem chave, o site da própria loja dá por vezes ícones pequenos ou errados e o logoapi.sh muitas vezes não encontra a loja. A chave é gratuita e basta uma para toda a casa.\n\nComo obter a sua chave gratuita:\n1. Abra [logo.dev]({signup_url}) e crie uma conta gratuita.\n2. No painel, abra a secção das chaves API.\n3. Copie a **Publishable key**: começa por `pk_`.\n4. **Nunca** use a Secret key `sk_` (seria recusada).\n5. Cole-a no campo abaixo (mais tarde: Definições > Dispositivos e serviços > Loyalty Hub > Configurar).\n6. Deixe «Testar a chave antes de guardar» ativo e guarde.\n\nA chave é opcional: sem ela pode carregar logótipos ou usar os outros serviços. O país define a lista de lojas da adição guiada e os sites de comparação de preços sugeridos.",
+        "data": {
+          "logo_dev_token": "Publishable key do Logo.dev (opcional)",
+          "test_logo_dev_key": "Testar a chave antes de guardar",
+          "logo_providers": "Serviços de pesquisa de logótipos online",
+          "default_country": "País"
+        },
+        "data_description": {
+          "logo_dev_token": "Começa por pk_. Também pode adicioná-la mais tarde nas opções.",
+          "test_logo_dev_key": "Envia um pedido ao Logo.dev com a nova chave; se não funcionar, o formulário continua aberto.",
+          "logo_providers": "Desmarque todos para permitir só logótipos carregados.",
+          "default_country": "Lista de lojas para os utilizadores que não escolheram o próprio país."
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "O Loyalty Hub já está configurado.",
+      "already_configured": "O Loyalty Hub já está configurado."
+    },
+    "error": {
+      "secret_key_not_allowed": "Esta é uma secret key (sk_): nunca a cole aqui. Use a publishable key (pk_).",
+      "invalid_key": "Não é uma publishable key do Logo.dev válida (começa por pk_).",
+      "key_rejected": "O Logo.dev recusou esta chave: verifique se copiou a publishable key completa (pk_).",
+      "key_rate_limited": "O Logo.dev está a limitar os pedidos neste momento: tente novamente dentro de alguns minutos.",
+      "cannot_connect": "Não foi possível contactar o Logo.dev para testar a chave: verifique a ligação ou desmarque «Testar a chave antes de guardar»."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opções do Loyalty Hub",
+        "description": "**País**: lista de lojas da adição guiada para os utilizadores que não escolheram o próprio país.\n\nSites de comparação de preços: um por linha no formato `Nome|https://site/search?q={query}`. Sugeridos para o país escolhido:\n{suggested_sites}\n\nPesquisa de logótipos online: o domínio da loja (ex. `coop.it`) é enviado pelo Home Assistant ao serviço escolhido. Chave Logo.dev guardada: {token_status}\n\n**Logótipos das lojas (Logo.dev)**: o Home Assistant descarrega cada logótipo uma só vez e guarda-o; os seus telefones nunca contactam o Logo.dev. Só o domínio da loja (ex. `coop.it`) é enviado ao Logo.dev, pelo servidor do Home Assistant. Basta uma chave para toda a casa.\n\n**Porque é recomendado o Logo.dev**: dá os logótipos de lojas mais precisos. Sem chave, o site da própria loja dá por vezes ícones pequenos ou errados e o logoapi.sh muitas vezes não encontra a loja. A chave é gratuita e basta uma para toda a casa.\n\nComo obter a sua chave gratuita:\n1. Abra [logo.dev]({signup_url}) e crie uma conta gratuita.\n2. No painel, abra a secção das chaves API.\n3. Copie a **Publishable key**: começa por `pk_`.\n4. **Nunca** use a Secret key `sk_` (seria recusada).\n5. Cole-a no campo abaixo (mais tarde: Definições > Dispositivos e serviços > Loyalty Hub > Configurar).\n6. Deixe «Testar a chave antes de guardar» ativo e guarde.\n\nOs limites de espaço para logótipos aplicam-se a todos os logótipos juntos, versões atuais e anteriores (máx. 512 KB cada).\n\n**Os administradores veem e editam todos os cartões**: desativado por predefinição. Quando ativo, os administradores podem ver e editar os cartões de todos os utilizadores, incluindo os privados (não os podem eliminar nem mudar com quem são partilhados), e cada utilizador vê um aviso no painel. As notificações e a exportação ficam sempre limitadas aos cartões próprios e partilhados de cada utilizador.",
+        "data": {
+          "default_country": "País",
+          "price_compare": "Sites de comparação de preços",
+          "expiry_warning_days": "Aviso de validade (dias)",
+          "logo_providers": "Serviços de pesquisa de logótipos online",
+          "logo_dev_token": "Publishable key do Logo.dev",
+          "test_logo_dev_key": "Testar a chave antes de guardar",
+          "logo_dev_token_clear": "Remover a chave Logo.dev guardada",
+          "logo_max_files": "Número máximo de ficheiros de logótipos",
+          "logo_max_mb": "Espaço máximo para logótipos (MB)",
+          "admin_full_access": "Os administradores veem e editam todos os cartões"
+        },
+        "data_description": {
+          "default_country": "Os utilizadores podem escolher até dois países próprios nas definições do painel.",
+          "price_compare": "`{query}` é substituído pelo texto pesquisado.",
+          "expiry_warning_days": "Notificar os cartões e vales que expiram dentro deste número de dias.",
+          "logo_providers": "Deixe vazio para permitir só logótipos carregados.",
+          "logo_dev_token": "Deixe vazio para manter a chave guardada. Começa por pk_.",
+          "test_logo_dev_key": "Envia um pedido ao Logo.dev com a nova chave; se não funcionar, o formulário continua aberto.",
+          "logo_dev_token_clear": "Elimina a chave guardada.",
+          "logo_max_files": "Carregamentos e transferências acima deste limite são recusados (1-2000). Cada cartão pode ter dois ficheiros (logótipo atual e anterior).",
+          "logo_max_mb": "Tamanho total de todos os logótipos (1-300 MB).",
+          "admin_full_access": "Os utilizadores verão um aviso a explicar que os administradores podem ver os seus cartões privados."
+        }
+      }
+    },
+    "error": {
+      "invalid_price_sites": "Linhas inválidas: {invalid}. Use `Nome|https://url` e inclua `{query}`.",
+      "secret_key_not_allowed": "Esta é uma secret key (sk_): nunca a cole aqui. Use a publishable key (pk_).",
+      "invalid_key": "Não é uma publishable key do Logo.dev válida (começa por pk_).",
+      "key_rejected": "O Logo.dev recusou esta chave: verifique se copiou a publishable key completa (pk_).",
+      "key_rate_limited": "O Logo.dev está a limitar os pedidos neste momento: tente novamente dentro de alguns minutos.",
+      "cannot_connect": "Não foi possível contactar o Logo.dev para testar a chave: verifique a ligação ou desmarque «Testar a chave antes de guardar»."
+    }
+  },
+  "selector": {
+    "logo_providers": {
+      "options": {
+        "logoapi": "logoapi.sh (sem chave)",
+        "logo_dev": "Logo.dev (precisa da chave da casa)",
+        "website": "Site da loja (favicon / ícone)"
+      }
+    },
+    "default_country": {
+      "options": {
+        "ae": "Emirados Árabes Unidos",
+        "al": "Albânia",
+        "ar": "Argentina",
+        "at": "Áustria",
+        "au": "Austrália",
+        "ba": "Bósnia e Herzegovina",
+        "be": "Bélgica",
+        "bg": "Bulgária",
+        "bh": "Bahrein",
+        "br": "Brasil",
+        "ca": "Canadá",
+        "ch": "Suíça",
+        "cl": "Chile",
+        "co": "Colômbia",
+        "cy": "Chipre",
+        "cz": "Chéquia",
+        "de": "Alemanha",
+        "dk": "Dinamarca",
+        "ee": "Estónia",
+        "eg": "Egito",
+        "es": "Espanha",
+        "fi": "Finlândia",
+        "fr": "França",
+        "gb": "Reino Unido",
+        "ge": "Geórgia",
+        "gr": "Grécia",
+        "hk": "Hong Kong",
+        "hr": "Croácia",
+        "hu": "Hungria",
+        "id": "Indonésia",
+        "ie": "Irlanda",
+        "il": "Israel",
+        "in": "Índia",
+        "is": "Islândia",
+        "it": "Itália",
+        "jo": "Jordânia",
+        "jp": "Japão",
+        "ke": "Quénia",
+        "kr": "Coreia do Sul",
+        "kw": "Kuwait",
+        "lb": "Líbano",
+        "lt": "Lituânia",
+        "lu": "Luxemburgo",
+        "lv": "Letónia",
+        "ma": "Marrocos",
+        "md": "Moldávia",
+        "me": "Montenegro",
+        "mk": "Macedónia do Norte",
+        "mt": "Malta",
+        "mx": "México",
+        "my": "Malásia",
+        "nl": "Países Baixos",
+        "no": "Noruega",
+        "nz": "Nova Zelândia",
+        "om": "Omã",
+        "pe": "Peru",
+        "ph": "Filipinas",
+        "pk": "Paquistão",
+        "pl": "Polónia",
+        "pt": "Portugal",
+        "qa": "Catar",
+        "ro": "Roménia",
+        "rs": "Sérvia",
+        "sa": "Arábia Saudita",
+        "se": "Suécia",
+        "sg": "Singapura",
+        "si": "Eslovénia",
+        "sk": "Eslováquia",
+        "th": "Tailândia",
+        "tr": "Turquia",
+        "tw": "Taiwan",
+        "ua": "Ucrânia",
+        "us": "Estados Unidos",
+        "vn": "Vietname",
+        "za": "África do Sul",
+        "other": "Outro (sem lista de lojas)"
+      }
+    }
+  }
+}

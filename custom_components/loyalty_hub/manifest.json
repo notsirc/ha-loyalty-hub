@@ -1,0 +1,26 @@
+{
+  "domain": "loyalty_hub",
+  "name": "Loyalty Hub",
+  "after_dependencies": [
+    "person",
+    "tag",
+    "zone"
+  ],
+  "codeowners": [
+    "@notsirc"
+  ],
+  "config_flow": true,
+  "dependencies": [
+    "http",
+    "frontend",
+    "websocket_api",
+    "panel_custom"
+  ],
+  "documentation": "https://github.com/notsirc/ha-loyalty-hub",
+  "integration_type": "service",
+  "iot_class": "local_push",
+  "issue_tracker": "https://github.com/notsirc/ha-loyalty-hub/issues",
+  "requirements": [],
+  "single_config_entry": true,
+  "version": "0.7.0"
+}

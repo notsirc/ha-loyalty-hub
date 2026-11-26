@@ -1,0 +1,1 @@
+import"./chunk-LO2NM3CE.js";var a=[{name:"IKEA",domain:"ikea.com.kw",color:"#0058A3",category:"home",aliases:["IKEA Family"]},{name:"Starbucks",domain:"starbucks.com.kw",color:"#00704A",category:"restaurant",aliases:["Starbucks Rewards"]}];export{a as SHOPS};

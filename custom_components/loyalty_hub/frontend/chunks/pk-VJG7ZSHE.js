@@ -1,0 +1,1 @@
+import"./chunk-LO2NM3CE.js";var r=[{name:"Carrefour",domain:"carrefour.pk",color:"#004E9F",category:"grocery",aliases:["Carta SpesAmica","SpesAmica PAYBACK","Carrefour Club","Carrefour Market","Carrefour Express"]},{name:"Imtiaz",domain:"imtiaz.com.pk",color:"#E2001A",category:"grocery"},{name:"PSO",domain:"psopk.com",color:"#00843D",category:"fuel"}];export{r as SHOPS};

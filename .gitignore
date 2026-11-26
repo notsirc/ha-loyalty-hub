@@ -1,0 +1,24 @@
+node_modules/
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+
+# Dati personali / ambiente reale: MAI su GitHub
+docs/AMBIENTE.md
+docs/privato/
+.claude/settings.local.json
+.private-patterns
+*.local.md
+
+# Copie di sicurezza locali
+backup/
+
+# Chiave Logo.dev predefinita dello sviluppatore (v0.4.2): mai su git per ora
+custom_components/loyalty_hub/default_key.py
+
+# Note di sviluppo e istruzioni per l'assistente: per ora non pubblicate
+docs/*
+!docs/screenshots/
+CLAUDE.md
+.claude/

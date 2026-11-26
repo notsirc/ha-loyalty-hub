@@ -1,0 +1,162 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Loyalty Hub",
+        "description": "Loyalty Hub verwaltet deine Kundenkarten und Gutscheine in Home Assistant.\n\n**Shop-Logos (Logo.dev)**: Home Assistant lädt jedes Logo einmal herunter und behält es; deine Handys kontaktieren Logo.dev nie. Nur die Shop-Domain (z. B. `coop.it`) wird an Logo.dev gesendet, vom Home-Assistant-Server. Ein Schlüssel reicht für den ganzen Haushalt.\n\n**Warum Logo.dev empfohlen wird**: Es liefert die genauesten Shop-Logos. Ohne Schlüssel liefert die Website des Shops manchmal kleine oder falsche Symbole, und logoapi.sh findet den Shop oft nicht. Der Schlüssel ist kostenlos, und einer reicht für den ganzen Haushalt.\n\nSo bekommst du deinen kostenlosen Schlüssel:\n1. Öffne [logo.dev]({signup_url}) und erstelle ein kostenloses Konto.\n2. Öffne im Dashboard den Bereich mit den API-Schlüsseln.\n3. Kopiere den **Publishable key**: Er beginnt mit `pk_`.\n4. Verwende **nie** den Secret key `sk_` (er würde abgelehnt).\n5. Füge ihn in das Feld unten ein (später: Einstellungen > Geräte & Dienste > Loyalty Hub > Konfigurieren).\n6. Lass „Schlüssel vor dem Speichern testen“ eingeschaltet und speichere.\n\nDer Schlüssel ist optional: Ohne ihn kannst du Logos hochladen oder die anderen Anbieter nutzen. Das Land bestimmt die Shopliste beim geführten Hinzufügen und die vorgeschlagenen Preisvergleichsseiten.",
+        "data": {
+          "logo_dev_token": "Logo.dev Publishable key (optional)",
+          "test_logo_dev_key": "Schlüssel vor dem Speichern testen",
+          "logo_providers": "Anbieter für die Online-Logosuche",
+          "default_country": "Land"
+        },
+        "data_description": {
+          "logo_dev_token": "Beginnt mit pk_. Du kannst ihn auch später in den Optionen hinzufügen.",
+          "test_logo_dev_key": "Sendet eine Anfrage mit dem neuen Schlüssel an Logo.dev; funktioniert er nicht, bleibt das Formular offen.",
+          "logo_providers": "Alle abwählen, um nur hochgeladene Logos zu erlauben.",
+          "default_country": "Shopliste für Benutzer, die kein eigenes Land gewählt haben."
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Loyalty Hub ist bereits eingerichtet.",
+      "already_configured": "Loyalty Hub ist bereits eingerichtet."
+    },
+    "error": {
+      "secret_key_not_allowed": "Das ist ein geheimer Schlüssel (sk_): Füge ihn hier nie ein. Verwende den Publishable key (pk_).",
+      "invalid_key": "Kein gültiger Logo.dev Publishable key (er beginnt mit pk_).",
+      "key_rejected": "Logo.dev hat diesen Schlüssel abgelehnt: Prüfe, ob du den ganzen Publishable key (pk_) kopiert hast.",
+      "key_rate_limited": "Logo.dev begrenzt gerade die Anfragen: Versuch es in ein paar Minuten noch einmal.",
+      "cannot_connect": "Logo.dev war zum Testen des Schlüssels nicht erreichbar: Prüfe die Verbindung oder entferne das Häkchen bei „Schlüssel vor dem Speichern testen“."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Loyalty Hub-Optionen",
+        "description": "**Land**: Shopliste beim geführten Hinzufügen für Benutzer, die kein eigenes Land gewählt haben.\n\nPreisvergleichsseiten: eine pro Zeile als `Name|https://site/search?q={query}`. Vorschläge für das gewählte Land:\n{suggested_sites}\n\nOnline-Logosuche: Die Shop-Domain (z. B. `coop.it`) wird von Home Assistant an den gewählten Dienst gesendet. Logo.dev-Schlüssel gespeichert: {token_status}\n\n**Shop-Logos (Logo.dev)**: Home Assistant lädt jedes Logo einmal herunter und behält es; deine Handys kontaktieren Logo.dev nie. Nur die Shop-Domain (z. B. `coop.it`) wird an Logo.dev gesendet, vom Home-Assistant-Server. Ein Schlüssel reicht für den ganzen Haushalt.\n\n**Warum Logo.dev empfohlen wird**: Es liefert die genauesten Shop-Logos. Ohne Schlüssel liefert die Website des Shops manchmal kleine oder falsche Symbole, und logoapi.sh findet den Shop oft nicht. Der Schlüssel ist kostenlos, und einer reicht für den ganzen Haushalt.\n\nSo bekommst du deinen kostenlosen Schlüssel:\n1. Öffne [logo.dev]({signup_url}) und erstelle ein kostenloses Konto.\n2. Öffne im Dashboard den Bereich mit den API-Schlüsseln.\n3. Kopiere den **Publishable key**: Er beginnt mit `pk_`.\n4. Verwende **nie** den Secret key `sk_` (er würde abgelehnt).\n5. Füge ihn in das Feld unten ein (später: Einstellungen > Geräte & Dienste > Loyalty Hub > Konfigurieren).\n6. Lass „Schlüssel vor dem Speichern testen“ eingeschaltet und speichere.\n\nDie Limits des Logo-Speichers gelten für alle Logos zusammen, aktuelle und vorherige Versionen (max. 512 KB pro Logo).\n\n**Administratoren sehen und bearbeiten alle Karten**: standardmäßig aus. Wenn an, können Administratoren die Karten aller Benutzer sehen und bearbeiten, auch private (sie können sie nicht löschen und nicht ändern, mit wem sie geteilt sind), und jeder Benutzer sieht einen Hinweis im Panel. Benachrichtigungen und Export bleiben immer auf die eigenen und geteilten Karten jedes Benutzers beschränkt.",
+        "data": {
+          "default_country": "Land",
+          "price_compare": "Preisvergleichsseiten",
+          "expiry_warning_days": "Ablaufwarnung (Tage)",
+          "logo_providers": "Anbieter für die Online-Logosuche",
+          "logo_dev_token": "Logo.dev Publishable key",
+          "test_logo_dev_key": "Schlüssel vor dem Speichern testen",
+          "logo_dev_token_clear": "Gespeicherten Logo.dev-Schlüssel entfernen",
+          "logo_max_files": "Maximale Anzahl Logo-Dateien",
+          "logo_max_mb": "Maximaler Logo-Speicher (MB)",
+          "admin_full_access": "Administratoren sehen und bearbeiten alle Karten"
+        },
+        "data_description": {
+          "default_country": "Benutzer können in den Einstellungen des Panels bis zu zwei eigene Länder wählen.",
+          "price_compare": "`{query}` wird durch den gesuchten Text ersetzt.",
+          "expiry_warning_days": "Über Karten und Gutscheine benachrichtigen, die innerhalb so vieler Tage ablaufen.",
+          "logo_providers": "Leer lassen, um nur hochgeladene Logos zu erlauben.",
+          "logo_dev_token": "Leer lassen, um den gespeicherten Schlüssel zu behalten. Beginnt mit pk_.",
+          "test_logo_dev_key": "Sendet eine Anfrage mit dem neuen Schlüssel an Logo.dev; funktioniert er nicht, bleibt das Formular offen.",
+          "logo_dev_token_clear": "Den gespeicherten Schlüssel löschen.",
+          "logo_max_files": "Uploads und Downloads über diesem Limit werden abgelehnt (1-2000). Jede Karte kann zwei Dateien behalten (aktuelles und vorheriges Logo).",
+          "logo_max_mb": "Gesamtgröße aller Logos (1-300 MB).",
+          "admin_full_access": "Benutzer sehen einen Hinweis, dass Administratoren ihre privaten Karten sehen können."
+        }
+      }
+    },
+    "error": {
+      "invalid_price_sites": "Ungültige Zeilen: {invalid}. Verwende `Name|https://url` und füge `{query}` ein.",
+      "secret_key_not_allowed": "Das ist ein geheimer Schlüssel (sk_): Füge ihn hier nie ein. Verwende den Publishable key (pk_).",
+      "invalid_key": "Kein gültiger Logo.dev Publishable key (er beginnt mit pk_).",
+      "key_rejected": "Logo.dev hat diesen Schlüssel abgelehnt: Prüfe, ob du den ganzen Publishable key (pk_) kopiert hast.",
+      "key_rate_limited": "Logo.dev begrenzt gerade die Anfragen: Versuch es in ein paar Minuten noch einmal.",
+      "cannot_connect": "Logo.dev war zum Testen des Schlüssels nicht erreichbar: Prüfe die Verbindung oder entferne das Häkchen bei „Schlüssel vor dem Speichern testen“."
+    }
+  },
+  "selector": {
+    "logo_providers": {
+      "options": {
+        "logoapi": "logoapi.sh (ohne Schlüssel)",
+        "logo_dev": "Logo.dev (braucht den Schlüssel des Haushalts)",
+        "website": "Website des Geschäfts (Favicon / Icon)"
+      }
+    },
+    "default_country": {
+      "options": {
+        "ae": "Vereinigte Arabische Emirate",
+        "al": "Albanien",
+        "ar": "Argentinien",
+        "at": "Österreich",
+        "au": "Australien",
+        "ba": "Bosnien und Herzegowina",
+        "be": "Belgien",
+        "bg": "Bulgarien",
+        "bh": "Bahrain",
+        "br": "Brasilien",
+        "ca": "Kanada",
+        "ch": "Schweiz",
+        "cl": "Chile",
+        "co": "Kolumbien",
+        "cy": "Zypern",
+        "cz": "Tschechien",
+        "de": "Deutschland",
+        "dk": "Dänemark",
+        "ee": "Estland",
+        "eg": "Ägypten",
+        "es": "Spanien",
+        "fi": "Finnland",
+        "fr": "Frankreich",
+        "gb": "Vereinigtes Königreich",
+        "ge": "Georgien",
+        "gr": "Griechenland",
+        "hk": "Hongkong",
+        "hr": "Kroatien",
+        "hu": "Ungarn",
+        "id": "Indonesien",
+        "ie": "Irland",
+        "il": "Israel",
+        "in": "Indien",
+        "is": "Island",
+        "it": "Italien",
+        "jo": "Jordanien",
+        "jp": "Japan",
+        "ke": "Kenia",
+        "kr": "Südkorea",
+        "kw": "Kuwait",
+        "lb": "Libanon",
+        "lt": "Litauen",
+        "lu": "Luxemburg",
+        "lv": "Lettland",
+        "ma": "Marokko",
+        "md": "Republik Moldau",
+        "me": "Montenegro",
+        "mk": "Nordmazedonien",
+        "mt": "Malta",
+        "mx": "Mexiko",
+        "my": "Malaysia",
+        "nl": "Niederlande",
+        "no": "Norwegen",
+        "nz": "Neuseeland",
+        "om": "Oman",
+        "pe": "Peru",
+        "ph": "Philippinen",
+        "pk": "Pakistan",
+        "pl": "Polen",
+        "pt": "Portugal",
+        "qa": "Katar",
+        "ro": "Rumänien",
+        "rs": "Serbien",
+        "sa": "Saudi-Arabien",
+        "se": "Schweden",
+        "sg": "Singapur",
+        "si": "Slowenien",
+        "sk": "Slowakei",
+        "th": "Thailand",
+        "tr": "Türkei",
+        "tw": "Taiwan",
+        "ua": "Ukraine",
+        "us": "Vereinigte Staaten",
+        "vn": "Vietnam",
+        "za": "Südafrika",
+        "other": "Anderes (keine Shopliste)"
+      }
+    }
+  }
+}

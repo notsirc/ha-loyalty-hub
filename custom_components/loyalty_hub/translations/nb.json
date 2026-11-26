@@ -1,0 +1,162 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Loyalty Hub",
+        "description": "Loyalty Hub tar vare på kundekortene og gavekortene dine i Home Assistant.\n\n**Butikklogoer (Logo.dev)**: Home Assistant laster ned hver logo én gang og tar vare på den; telefonene dine kontakter aldri Logo.dev. Bare butikkens domene (f.eks. `coop.it`) sendes til Logo.dev, av Home Assistant-serveren. Én nøkkel holder for hele husstanden.\n\n**Derfor anbefales Logo.dev**: den gir de mest korrekte butikklogoene. Uten nøkkel gir butikkens egen nettside noen ganger små eller feil ikoner, og logoapi.sh finner ofte ikke butikken. Nøkkelen er gratis, og én holder for hele husstanden.\n\nSlik får du din gratis nøkkel:\n1. Åpne [logo.dev]({signup_url}) og opprett en gratis konto.\n2. Åpne delen med API-nøklene i dashbordet.\n3. Kopier **Publishable key**: den starter med `pk_`.\n4. Bruk **aldri** Secret key `sk_` (den ville blitt avvist).\n5. Lim den inn i feltet nedenfor (senere: Innstillinger > Enheter og tjenester > Loyalty Hub > Konfigurer).\n6. La «Test nøkkelen før lagring» være på og lagre.\n\nNøkkelen er valgfri: uten den kan du laste opp logoer eller bruke de andre leverandørene. Landet bestemmer butikklisten i den veiledede tilleggingen og de foreslåtte prissammenligningssidene.",
+        "data": {
+          "logo_dev_token": "Logo.dev publishable key (valgfritt)",
+          "test_logo_dev_key": "Test nøkkelen før lagring",
+          "logo_providers": "Leverandører for logosøk på nett",
+          "default_country": "Land"
+        },
+        "data_description": {
+          "logo_dev_token": "Starter med pk_. Du kan også legge den til senere i alternativene.",
+          "test_logo_dev_key": "Sender én forespørsel til Logo.dev med den nye nøkkelen; hvis den ikke virker, forblir skjemaet åpent.",
+          "logo_providers": "Fjern alle avkrysninger for å bare tillate opplastede logoer.",
+          "default_country": "Butikkliste for brukere som ikke har valgt sitt eget land."
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Loyalty Hub er allerede konfigurert.",
+      "already_configured": "Loyalty Hub er allerede konfigurert."
+    },
+    "error": {
+      "secret_key_not_allowed": "Dette er en hemmelig nøkkel (sk_): lim den aldri inn her. Bruk publishable key (pk_).",
+      "invalid_key": "Ikke en gyldig Logo.dev publishable key (den starter med pk_).",
+      "key_rejected": "Logo.dev avviste denne nøkkelen: sjekk at du kopierte hele publishable key (pk_).",
+      "key_rate_limited": "Logo.dev begrenser forespørslene akkurat nå: prøv igjen om noen minutter.",
+      "cannot_connect": "Kunne ikke nå Logo.dev for å teste nøkkelen: sjekk tilkoblingen eller fjern avkrysningen for «Test nøkkelen før lagring»."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Alternativer for Loyalty Hub",
+        "description": "**Land**: butikkliste i den veiledede tilleggingen for brukere som ikke har valgt sitt eget land.\n\nPrissammenligningssider: én per linje som `Navn|https://site/search?q={query}`. Forslag for valgt land:\n{suggested_sites}\n\nLogosøk på nett: butikkens domene (f.eks. `coop.it`) sendes av Home Assistant til den valgte tjenesten. Logo.dev-nøkkel lagret: {token_status}\n\n**Butikklogoer (Logo.dev)**: Home Assistant laster ned hver logo én gang og tar vare på den; telefonene dine kontakter aldri Logo.dev. Bare butikkens domene (f.eks. `coop.it`) sendes til Logo.dev, av Home Assistant-serveren. Én nøkkel holder for hele husstanden.\n\n**Derfor anbefales Logo.dev**: den gir de mest korrekte butikklogoene. Uten nøkkel gir butikkens egen nettside noen ganger små eller feil ikoner, og logoapi.sh finner ofte ikke butikken. Nøkkelen er gratis, og én holder for hele husstanden.\n\nSlik får du din gratis nøkkel:\n1. Åpne [logo.dev]({signup_url}) og opprett en gratis konto.\n2. Åpne delen med API-nøklene i dashbordet.\n3. Kopier **Publishable key**: den starter med `pk_`.\n4. Bruk **aldri** Secret key `sk_` (den ville blitt avvist).\n5. Lim den inn i feltet nedenfor (senere: Innstillinger > Enheter og tjenester > Loyalty Hub > Konfigurer).\n6. La «Test nøkkelen før lagring» være på og lagre.\n\nGrensene for logolagring gjelder alle logoer samlet, nåværende og forrige versjoner (maks 512 KB per logo).\n\n**Administratorer ser og redigerer alle kort**: av som standard. Når dette er på, kan administratorer se og redigere alle brukeres kort, også private (de kan ikke slette dem eller endre hvem de deles med), og alle brukere får se en melding i panelet. Varsler og eksport er alltid begrenset til hver brukers egne og delte kort.",
+        "data": {
+          "default_country": "Land",
+          "price_compare": "Prissammenligningssider",
+          "expiry_warning_days": "Varsel før utløp (dager)",
+          "logo_providers": "Leverandører for logosøk på nett",
+          "logo_dev_token": "Logo.dev publishable key",
+          "test_logo_dev_key": "Test nøkkelen før lagring",
+          "logo_dev_token_clear": "Fjern den lagrede Logo.dev-nøkkelen",
+          "logo_max_files": "Maks antall logofiler",
+          "logo_max_mb": "Maks lagring for logoer (MB)",
+          "admin_full_access": "Administratorer ser og redigerer alle kort"
+        },
+        "data_description": {
+          "default_country": "Brukere kan velge opptil to egne land i innstillingene i panelet.",
+          "price_compare": "`{query}` erstattes med teksten det søkes etter.",
+          "expiry_warning_days": "Varsle om kort og gavekort som utløper innen så mange dager.",
+          "logo_providers": "La stå tomt for å bare tillate opplastede logoer.",
+          "logo_dev_token": "La stå tomt for å beholde den lagrede nøkkelen. Starter med pk_.",
+          "test_logo_dev_key": "Sender én forespørsel til Logo.dev med den nye nøkkelen; hvis den ikke virker, forblir skjemaet åpent.",
+          "logo_dev_token_clear": "Slett den lagrede nøkkelen.",
+          "logo_max_files": "Opplastinger og nedlastinger over grensen avvises (1-2000). Hvert kort kan ha to filer (nåværende og forrige logo).",
+          "logo_max_mb": "Samlet størrelse på alle logoer (1-300 MB).",
+          "admin_full_access": "Brukerne får se en melding om at administratorer kan se de private kortene deres."
+        }
+      }
+    },
+    "error": {
+      "invalid_price_sites": "Ugyldige linjer: {invalid}. Bruk `Navn|https://url` og ta med `{query}`.",
+      "secret_key_not_allowed": "Dette er en hemmelig nøkkel (sk_): lim den aldri inn her. Bruk publishable key (pk_).",
+      "invalid_key": "Ikke en gyldig Logo.dev publishable key (den starter med pk_).",
+      "key_rejected": "Logo.dev avviste denne nøkkelen: sjekk at du kopierte hele publishable key (pk_).",
+      "key_rate_limited": "Logo.dev begrenser forespørslene akkurat nå: prøv igjen om noen minutter.",
+      "cannot_connect": "Kunne ikke nå Logo.dev for å teste nøkkelen: sjekk tilkoblingen eller fjern avkrysningen for «Test nøkkelen før lagring»."
+    }
+  },
+  "selector": {
+    "logo_providers": {
+      "options": {
+        "logoapi": "logoapi.sh (ingen nøkkel)",
+        "logo_dev": "Logo.dev (krever husstandens nøkkel)",
+        "website": "Butikkens nettside (favicon / ikon)"
+      }
+    },
+    "default_country": {
+      "options": {
+        "ae": "De forente arabiske emirater",
+        "al": "Albania",
+        "ar": "Argentina",
+        "at": "Østerrike",
+        "au": "Australia",
+        "ba": "Bosnia-Hercegovina",
+        "be": "Belgia",
+        "bg": "Bulgaria",
+        "bh": "Bahrain",
+        "br": "Brasil",
+        "ca": "Canada",
+        "ch": "Sveits",
+        "cl": "Chile",
+        "co": "Colombia",
+        "cy": "Kypros",
+        "cz": "Tsjekkia",
+        "de": "Tyskland",
+        "dk": "Danmark",
+        "ee": "Estland",
+        "eg": "Egypt",
+        "es": "Spania",
+        "fi": "Finland",
+        "fr": "Frankrike",
+        "gb": "Storbritannia",
+        "ge": "Georgia",
+        "gr": "Hellas",
+        "hk": "Hongkong",
+        "hr": "Kroatia",
+        "hu": "Ungarn",
+        "id": "Indonesia",
+        "ie": "Irland",
+        "il": "Israel",
+        "in": "India",
+        "is": "Island",
+        "it": "Italia",
+        "jo": "Jordan",
+        "jp": "Japan",
+        "ke": "Kenya",
+        "kr": "Sør-Korea",
+        "kw": "Kuwait",
+        "lb": "Libanon",
+        "lt": "Litauen",
+        "lu": "Luxemburg",
+        "lv": "Latvia",
+        "ma": "Marokko",
+        "md": "Moldova",
+        "me": "Montenegro",
+        "mk": "Nord-Makedonia",
+        "mt": "Malta",
+        "mx": "Mexico",
+        "my": "Malaysia",
+        "nl": "Nederland",
+        "no": "Norge",
+        "nz": "New Zealand",
+        "om": "Oman",
+        "pe": "Peru",
+        "ph": "Filippinene",
+        "pk": "Pakistan",
+        "pl": "Polen",
+        "pt": "Portugal",
+        "qa": "Qatar",
+        "ro": "Romania",
+        "rs": "Serbia",
+        "sa": "Saudi-Arabia",
+        "se": "Sverige",
+        "sg": "Singapore",
+        "si": "Slovenia",
+        "sk": "Slovakia",
+        "th": "Thailand",
+        "tr": "Tyrkia",
+        "tw": "Taiwan",
+        "ua": "Ukraina",
+        "us": "USA",
+        "vn": "Vietnam",
+        "za": "Sør-Afrika",
+        "other": "Annet (ingen butikkliste)"
+      }
+    }
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Loyalty Hub",
+        "description": "Loyalty Hub conserva le tue tessere fedeltà e i buoni in Home Assistant.\n\n**Loghi dei negozi (Logo.dev)**: Home Assistant scarica ogni logo una volta sola e lo conserva; i telefoni non contattano mai Logo.dev. A Logo.dev viene inviato solo il dominio del negozio (es. `coop.it`), dal server di Home Assistant. Basta una chiave per tutta la casa.\n\n**Perché Logo.dev è consigliato**: dà i loghi dei negozi più corretti. Senza chiave, il sito del negozio a volte dà icone piccole o sbagliate e logoapi.sh spesso non trova il negozio. La chiave è gratuita e ne basta una per tutta la casa.\n\nCome ottenere la chiave gratuita:\n1. Apri [logo.dev]({signup_url}) e crea un account gratuito.\n2. Nella dashboard apri la sezione delle chiavi API.\n3. Copia la **Publishable key**: inizia con `pk_`.\n4. **Mai** la Secret key `sk_` (verrebbe rifiutata).\n5. Incollala nel campo qui sotto (in seguito: Impostazioni > Dispositivi e servizi > Loyalty Hub > Configura).\n6. Lascia attiva \"Prova la chiave prima di salvare\" e salva.\n\nLa chiave è facoltativa: senza puoi caricare i loghi o usare gli altri servizi. Il paese sceglie l'elenco dei negozi dell'aggiunta guidata e i siti di confronto prezzi suggeriti.",
+        "data": {
+          "logo_dev_token": "Chiave pubblicabile Logo.dev (facoltativa)",
+          "test_logo_dev_key": "Prova la chiave prima di salvare",
+          "logo_providers": "Servizi per la ricerca online dei loghi",
+          "default_country": "Paese"
+        },
+        "data_description": {
+          "logo_dev_token": "Inizia con pk_. Puoi aggiungerla anche più tardi nelle opzioni.",
+          "test_logo_dev_key": "Invia una richiesta a Logo.dev con la chiave nuova; se non funziona il modulo resta aperto.",
+          "logo_providers": "Togli tutte le spunte per permettere solo i loghi caricati.",
+          "default_country": "Elenco dei negozi per chi non ha scelto un paese suo."
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Loyalty Hub è già configurato.",
+      "already_configured": "Loyalty Hub è già configurato."
+    },
+    "error": {
+      "secret_key_not_allowed": "Questa è una chiave segreta (sk_): non incollarla mai qui. Usa la chiave pubblicabile (pk_).",
+      "invalid_key": "Non è una chiave pubblicabile Logo.dev valida (inizia con pk_).",
+      "key_rejected": "Logo.dev ha rifiutato questa chiave: controlla di aver copiato tutta la chiave pubblicabile (pk_).",
+      "key_rate_limited": "Logo.dev sta limitando le richieste in questo momento: riprova tra qualche minuto.",
+      "cannot_connect": "Impossibile contattare Logo.dev per provare la chiave: controlla la connessione oppure togli la spunta a \"Prova la chiave prima di salvare\"."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opzioni Loyalty Hub",
+        "description": "**Paese**: elenco dei negozi dell'aggiunta guidata per chi non ha scelto un paese suo.\n\nSiti di confronto prezzi: uno per riga come `Nome|https://sito/cerca?q={query}`. Suggeriti per il paese scelto:\n{suggested_sites}\n\nRicerca online dei loghi: il dominio del negozio (es. `coop.it`) viene inviato da Home Assistant al servizio scelto. Chiave Logo.dev salvata: {token_status}\n\n**Loghi dei negozi (Logo.dev)**: Home Assistant scarica ogni logo una volta sola e lo conserva; i telefoni non contattano mai Logo.dev. A Logo.dev viene inviato solo il dominio del negozio (es. `coop.it`), dal server di Home Assistant. Basta una chiave per tutta la casa.\n\n**Perché Logo.dev è consigliato**: dà i loghi dei negozi più corretti. Senza chiave, il sito del negozio a volte dà icone piccole o sbagliate e logoapi.sh spesso non trova il negozio. La chiave è gratuita e ne basta una per tutta la casa.\n\nCome ottenere la chiave gratuita:\n1. Apri [logo.dev]({signup_url}) e crea un account gratuito.\n2. Nella dashboard apri la sezione delle chiavi API.\n3. Copia la **Publishable key**: inizia con `pk_`.\n4. **Mai** la Secret key `sk_` (verrebbe rifiutata).\n5. Incollala nel campo qui sotto (in seguito: Impostazioni > Dispositivi e servizi > Loyalty Hub > Configura).\n6. Lascia attiva \"Prova la chiave prima di salvare\" e salva.\n\nI limiti di spazio valgono per tutti i loghi insieme, versioni attuali e precedenti (max 512 KB ciascuno).\n\n**Gli amministratori vedono e modificano tutte le tessere**: disattivato di default. Se attivo, gli amministratori possono vedere e modificare le tessere di tutti, anche quelle private (non possono eliminarle né cambiare con chi sono condivise), e a ogni utente viene mostrato un avviso nel pannello. Notifiche ed esportazione restano sempre limitate alle tessere proprie e condivise di ciascuno.",
+        "data": {
+          "default_country": "Paese",
+          "price_compare": "Siti di confronto prezzi",
+          "expiry_warning_days": "Avviso di scadenza (giorni)",
+          "logo_providers": "Servizi per la ricerca online dei loghi",
+          "logo_dev_token": "Chiave pubblicabile Logo.dev",
+          "test_logo_dev_key": "Prova la chiave prima di salvare",
+          "logo_dev_token_clear": "Rimuovi la chiave Logo.dev salvata",
+          "logo_max_files": "Numero massimo di file dei loghi",
+          "logo_max_mb": "Spazio massimo per i loghi (MB)",
+          "admin_full_access": "Gli amministratori vedono e modificano tutte le tessere"
+        },
+        "data_description": {
+          "default_country": "Ogni utente può scegliere fino a due paesi suoi nelle impostazioni del pannello.",
+          "price_compare": "`{query}` viene sostituito con il testo cercato.",
+          "expiry_warning_days": "Notifica tessere e buoni che scadono entro questo numero di giorni.",
+          "logo_providers": "Lascia vuoto per permettere solo i loghi caricati.",
+          "logo_dev_token": "Lascia vuoto per tenere la chiave salvata. Inizia con pk_.",
+          "test_logo_dev_key": "Invia una richiesta a Logo.dev con la chiave nuova; se non funziona il modulo resta aperto.",
+          "logo_dev_token_clear": "Cancella la chiave salvata.",
+          "logo_max_files": "Caricamenti e download oltre questo limite vengono rifiutati (1-2000). Ogni tessera può tenere due file (logo attuale e precedente).",
+          "logo_max_mb": "Dimensione totale di tutti i loghi (1-300 MB).",
+          "admin_full_access": "Gli utenti vedranno un avviso che spiega che gli amministratori possono vedere le loro tessere private."
+        }
+      }
+    },
+    "error": {
+      "invalid_price_sites": "Righe non valide: {invalid}. Usa `Nome|https://url` e includi `{query}`.",
+      "secret_key_not_allowed": "Questa è una chiave segreta (sk_): non incollarla mai qui. Usa la chiave pubblicabile (pk_).",
+      "invalid_key": "Non è una chiave pubblicabile Logo.dev valida (inizia con pk_).",
+      "key_rejected": "Logo.dev ha rifiutato questa chiave: controlla di aver copiato tutta la chiave pubblicabile (pk_).",
+      "key_rate_limited": "Logo.dev sta limitando le richieste in questo momento: riprova tra qualche minuto.",
+      "cannot_connect": "Impossibile contattare Logo.dev per provare la chiave: controlla la connessione oppure togli la spunta a \"Prova la chiave prima di salvare\"."
+    }
+  },
+  "selector": {
+    "logo_providers": {
+      "options": {
+        "logoapi": "logoapi.sh (senza chiave)",
+        "logo_dev": "Logo.dev (serve la chiave della casa)",
+        "website": "Sito del negozio (favicon / icona)"
+      }
+    },
+    "default_country": {
+      "options": {
+        "ae": "Emirati Arabi Uniti",
+        "al": "Albania",
+        "ar": "Argentina",
+        "at": "Austria",
+        "au": "Australia",
+        "ba": "Bosnia ed Erzegovina",
+        "be": "Belgio",
+        "bg": "Bulgaria",
+        "bh": "Bahrein",
+        "br": "Brasile",
+        "ca": "Canada",
+        "ch": "Svizzera",
+        "cl": "Cile",
+        "co": "Colombia",
+        "cy": "Cipro",
+        "cz": "Cechia",
+        "de": "Germania",
+        "dk": "Danimarca",
+        "ee": "Estonia",
+        "eg": "Egitto",
+        "es": "Spagna",
+        "fi": "Finlandia",
+        "fr": "Francia",
+        "gb": "Regno Unito",
+        "ge": "Georgia",
+        "gr": "Grecia",
+        "hk": "Hong Kong",
+        "hr": "Croazia",
+        "hu": "Ungheria",
+        "id": "Indonesia",
+        "ie": "Irlanda",
+        "il": "Israele",
+        "in": "India",
+        "is": "Islanda",
+        "it": "Italia",
+        "jo": "Giordania",
+        "jp": "Giappone",
+        "ke": "Kenya",
+        "kr": "Corea del Sud",
+        "kw": "Kuwait",
+        "lb": "Libano",
+        "lt": "Lituania",
+        "lu": "Lussemburgo",
+        "lv": "Lettonia",
+        "ma": "Marocco",
+        "md": "Moldavia",
+        "me": "Montenegro",
+        "mk": "Macedonia del Nord",
+        "mt": "Malta",
+        "mx": "Messico",
+        "my": "Malaysia",
+        "nl": "Paesi Bassi",
+        "no": "Norvegia",
+        "nz": "Nuova Zelanda",
+        "om": "Oman",
+        "pe": "Perù",
+        "ph": "Filippine",
+        "pk": "Pakistan",
+        "pl": "Polonia",
+        "pt": "Portogallo",
+        "qa": "Qatar",
+        "ro": "Romania",
+        "rs": "Serbia",
+        "sa": "Arabia Saudita",
+        "se": "Svezia",
+        "sg": "Singapore",
+        "si": "Slovenia",
+        "sk": "Slovacchia",
+        "th": "Thailandia",
+        "tr": "Turchia",
+        "tw": "Taiwan",
+        "ua": "Ucraina",
+        "us": "Stati Uniti",
+        "vn": "Vietnam",
+        "za": "Sudafrica",
+        "other": "Altro (nessun elenco di negozi)"
+      }
+    }
+  }
+}

@@ -1,0 +1,1 @@
+import"./chunk-LO2NM3CE.js";var o=[{name:"Greens Supermarket",domain:"greens.com.mt",color:"#00843D",category:"grocery"},{name:"Lidl",domain:"lidl.com.mt",color:"#0050AA",category:"discount",aliases:["Lidl Plus"]},{name:"H&M",domain:"hm.com",color:"#E50010",category:"fashion",aliases:["H&M Member"]}];export{o as SHOPS};

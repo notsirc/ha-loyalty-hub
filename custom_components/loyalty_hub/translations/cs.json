@@ -1,0 +1,162 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Loyalty Hub",
+        "description": "Loyalty Hub uchovává tvoje věrnostní karty a poukazy v Home Assistant.\n\n**Loga obchodů (Logo.dev)**: Home Assistant stáhne každé logo jednou a uchová ho; tvoje telefony se s Logo.dev nikdy nespojují. Do Logo.dev se posílá jen doména obchodu (např. `coop.it`), a to serverem Home Assistant. Jeden klíč stačí pro celou domácnost.\n\n**Proč se doporučuje Logo.dev**: dává nejpřesnější loga obchodů. Bez klíče vlastní web obchodu někdy dává malé nebo nesprávné ikony a logoapi.sh obchod často nenajde. Klíč je zdarma a jeden stačí pro celou domácnost.\n\nJak získat bezplatný klíč:\n1. Otevři [logo.dev]({signup_url}) a vytvoř si bezplatný účet.\n2. Na nástěnce otevři sekci s klíči API.\n3. Zkopíruj **Publishable key**: začíná na `pk_`.\n4. **Nikdy** nepoužívej Secret key `sk_` (byl by odmítnut).\n5. Vlož ho do pole níže (později: Nastavení > Zařízení a služby > Loyalty Hub > Konfigurovat).\n6. Nech zapnuté „Otestovat klíč před uložením“ a ulož.\n\nKlíč je volitelný: bez něj můžeš nahrávat loga nebo používat ostatní poskytovatele. Země určuje seznam obchodů v průvodci přidáním a navržené weby pro porovnání cen.",
+        "data": {
+          "logo_dev_token": "Publishable key Logo.dev (volitelné)",
+          "test_logo_dev_key": "Otestovat klíč před uložením",
+          "logo_providers": "Poskytovatelé online vyhledávání log",
+          "default_country": "Země"
+        },
+        "data_description": {
+          "logo_dev_token": "Začíná na pk_. Můžeš ho přidat i později v možnostech.",
+          "test_logo_dev_key": "Odešle s novým klíčem jeden požadavek na Logo.dev; pokud nefunguje, formulář zůstane otevřený.",
+          "logo_providers": "Zruš zaškrtnutí všech, pokud chceš povolit jen nahraná loga.",
+          "default_country": "Seznam obchodů pro uživatele, kteří si nezvolili vlastní zemi."
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Loyalty Hub je už nastaven.",
+      "already_configured": "Loyalty Hub je už nastaven."
+    },
+    "error": {
+      "secret_key_not_allowed": "Toto je tajný klíč (sk_): nikdy ho sem nevkládej. Použij publishable key (pk_).",
+      "invalid_key": "Toto není platný publishable key Logo.dev (začíná na pk_).",
+      "key_rejected": "Logo.dev tento klíč odmítlo: zkontroluj, že jsi zkopíroval celý publishable key (pk_).",
+      "key_rate_limited": "Logo.dev právě omezuje požadavky: zkus to znovu za pár minut.",
+      "cannot_connect": "Logo.dev se nepodařilo kontaktovat kvůli testu klíče: zkontroluj připojení nebo zruš zaškrtnutí „Otestovat klíč před uložením“."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Možnosti Loyalty Hub",
+        "description": "**Země**: seznam obchodů v průvodci přidáním pro uživatele, kteří si nezvolili vlastní zemi.\n\nWeby pro porovnání cen: jeden na řádek ve tvaru `Název|https://site/search?q={query}`. Návrhy pro zvolenou zemi:\n{suggested_sites}\n\nOnline vyhledávání log: doménu obchodu (např. `coop.it`) odesílá Home Assistant vybrané službě. Uložený klíč Logo.dev: {token_status}\n\n**Loga obchodů (Logo.dev)**: Home Assistant stáhne každé logo jednou a uchová ho; tvoje telefony se s Logo.dev nikdy nespojují. Do Logo.dev se posílá jen doména obchodu (např. `coop.it`), a to serverem Home Assistant. Jeden klíč stačí pro celou domácnost.\n\n**Proč se doporučuje Logo.dev**: dává nejpřesnější loga obchodů. Bez klíče vlastní web obchodu někdy dává malé nebo nesprávné ikony a logoapi.sh obchod často nenajde. Klíč je zdarma a jeden stačí pro celou domácnost.\n\nJak získat bezplatný klíč:\n1. Otevři [logo.dev]({signup_url}) a vytvoř si bezplatný účet.\n2. Na nástěnce otevři sekci s klíči API.\n3. Zkopíruj **Publishable key**: začíná na `pk_`.\n4. **Nikdy** nepoužívej Secret key `sk_` (byl by odmítnut).\n5. Vlož ho do pole níže (později: Nastavení > Zařízení a služby > Loyalty Hub > Konfigurovat).\n6. Nech zapnuté „Otestovat klíč před uložením“ a ulož.\n\nLimity úložiště log platí pro všechna loga dohromady, aktuální i předchozí verze (max. 512 KB na logo).\n\n**Správci vidí a upravují všechny karty**: ve výchozím stavu vypnuto. Po zapnutí mohou správci vidět a upravovat karty všech uživatelů, i soukromé (nemohou je mazat ani měnit, s kým jsou sdílené), a každému uživateli se v panelu zobrazí upozornění. Oznámení a export jsou vždy omezeny na vlastní a sdílené karty každého uživatele.",
+        "data": {
+          "default_country": "Země",
+          "price_compare": "Weby pro porovnání cen",
+          "expiry_warning_days": "Upozornění na konec platnosti (dny)",
+          "logo_providers": "Poskytovatelé online vyhledávání log",
+          "logo_dev_token": "Publishable key Logo.dev",
+          "test_logo_dev_key": "Otestovat klíč před uložením",
+          "logo_dev_token_clear": "Odebrat uložený klíč Logo.dev",
+          "logo_max_files": "Maximální počet souborů log",
+          "logo_max_mb": "Maximální úložiště log (MB)",
+          "admin_full_access": "Správci vidí a upravují všechny karty"
+        },
+        "data_description": {
+          "default_country": "Uživatelé si v nastavení panelu mohou zvolit až dvě vlastní země.",
+          "price_compare": "`{query}` se nahradí hledaným textem.",
+          "expiry_warning_days": "Upozornit na karty a poukazy, kterým do tolika dní končí platnost.",
+          "logo_providers": "Nech prázdné, pokud chceš povolit jen nahraná loga.",
+          "logo_dev_token": "Nech prázdné, pokud chceš ponechat uložený klíč. Začíná na pk_.",
+          "test_logo_dev_key": "Odešle s novým klíčem jeden požadavek na Logo.dev; pokud nefunguje, formulář zůstane otevřený.",
+          "logo_dev_token_clear": "Smazat uložený klíč.",
+          "logo_max_files": "Nahrávání a stahování nad tento limit se odmítne (1-2000). Každá karta může mít dva soubory (aktuální a předchozí logo).",
+          "logo_max_mb": "Celková velikost všech log (1-300 MB).",
+          "admin_full_access": "Uživatelé uvidí upozornění, že správci mohou vidět jejich soukromé karty."
+        }
+      }
+    },
+    "error": {
+      "invalid_price_sites": "Neplatné řádky: {invalid}. Použij `Název|https://url` a uveď `{query}`.",
+      "secret_key_not_allowed": "Toto je tajný klíč (sk_): nikdy ho sem nevkládej. Použij publishable key (pk_).",
+      "invalid_key": "Toto není platný publishable key Logo.dev (začíná na pk_).",
+      "key_rejected": "Logo.dev tento klíč odmítlo: zkontroluj, že jsi zkopíroval celý publishable key (pk_).",
+      "key_rate_limited": "Logo.dev právě omezuje požadavky: zkus to znovu za pár minut.",
+      "cannot_connect": "Logo.dev se nepodařilo kontaktovat kvůli testu klíče: zkontroluj připojení nebo zruš zaškrtnutí „Otestovat klíč před uložením“."
+    }
+  },
+  "selector": {
+    "logo_providers": {
+      "options": {
+        "logoapi": "logoapi.sh (bez klíče)",
+        "logo_dev": "Logo.dev (vyžaduje klíč domácnosti)",
+        "website": "Web obchodu (favicon / ikona)"
+      }
+    },
+    "default_country": {
+      "options": {
+        "ae": "Spojené arabské emiráty",
+        "al": "Albánie",
+        "ar": "Argentina",
+        "at": "Rakousko",
+        "au": "Austrálie",
+        "ba": "Bosna a Hercegovina",
+        "be": "Belgie",
+        "bg": "Bulharsko",
+        "bh": "Bahrajn",
+        "br": "Brazílie",
+        "ca": "Kanada",
+        "ch": "Švýcarsko",
+        "cl": "Chile",
+        "co": "Kolumbie",
+        "cy": "Kypr",
+        "cz": "Česko",
+        "de": "Německo",
+        "dk": "Dánsko",
+        "ee": "Estonsko",
+        "eg": "Egypt",
+        "es": "Španělsko",
+        "fi": "Finsko",
+        "fr": "Francie",
+        "gb": "Spojené království",
+        "ge": "Gruzie",
+        "gr": "Řecko",
+        "hk": "Hongkong",
+        "hr": "Chorvatsko",
+        "hu": "Maďarsko",
+        "id": "Indonésie",
+        "ie": "Irsko",
+        "il": "Izrael",
+        "in": "Indie",
+        "is": "Island",
+        "it": "Itálie",
+        "jo": "Jordánsko",
+        "jp": "Japonsko",
+        "ke": "Keňa",
+        "kr": "Jižní Korea",
+        "kw": "Kuvajt",
+        "lb": "Libanon",
+        "lt": "Litva",
+        "lu": "Lucembursko",
+        "lv": "Lotyšsko",
+        "ma": "Maroko",
+        "md": "Moldavsko",
+        "me": "Černá Hora",
+        "mk": "Severní Makedonie",
+        "mt": "Malta",
+        "mx": "Mexiko",
+        "my": "Malajsie",
+        "nl": "Nizozemsko",
+        "no": "Norsko",
+        "nz": "Nový Zéland",
+        "om": "Omán",
+        "pe": "Peru",
+        "ph": "Filipíny",
+        "pk": "Pákistán",
+        "pl": "Polsko",
+        "pt": "Portugalsko",
+        "qa": "Katar",
+        "ro": "Rumunsko",
+        "rs": "Srbsko",
+        "sa": "Saúdská Arábie",
+        "se": "Švédsko",
+        "sg": "Singapur",
+        "si": "Slovinsko",
+        "sk": "Slovensko",
+        "th": "Thajsko",
+        "tr": "Turecko",
+        "tw": "Tchaj-wan",
+        "ua": "Ukrajina",
+        "us": "Spojené státy",
+        "vn": "Vietnam",
+        "za": "Jihoafrická republika",
+        "other": "Jiná (bez seznamu obchodů)"
+      }
+    }
+  }
+}

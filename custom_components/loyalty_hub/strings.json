@@ -1,0 +1,162 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Loyalty Hub",
+        "description": "Loyalty Hub keeps your loyalty cards and vouchers in Home Assistant.\n\n**Shop logos (Logo.dev)**: Home Assistant downloads each logo once and keeps it; your phones never contact Logo.dev. Only the shop domain (e.g. `coop.it`) is sent to Logo.dev, by the Home Assistant server. One key is enough for the whole household.\n\n**Why Logo.dev is recommended**: it gives the most accurate shop logos. Without a key, the shop's own website sometimes gives small or wrong icons and logoapi.sh often does not find the shop. The key is free and one is enough for the whole household.\n\nHow to get your free key:\n1. Open [logo.dev]({signup_url}) and create a free account.\n2. In the dashboard open the API keys section.\n3. Copy the **Publishable key**: it starts with `pk_`.\n4. **Never** use the Secret key `sk_` (it would be refused).\n5. Paste it in the field below (later: Settings > Devices & services > Loyalty Hub > Configure).\n6. Leave \"Test the key before saving\" on and save.\n\nThe key is optional: without it you can upload logos or use the other providers. The country chooses the shop list of the guided add and the suggested price comparison sites.",
+        "data": {
+          "logo_dev_token": "Logo.dev publishable key (optional)",
+          "test_logo_dev_key": "Test the key before saving",
+          "logo_providers": "Online logo search providers",
+          "default_country": "Country"
+        },
+        "data_description": {
+          "logo_dev_token": "Starts with pk_. You can also add it later in the options.",
+          "test_logo_dev_key": "Sends one request to Logo.dev with the new key; if it does not work the form stays open.",
+          "logo_providers": "Uncheck all to allow only uploaded logos.",
+          "default_country": "Shop list for users who did not choose their own country."
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Loyalty Hub is already configured.",
+      "already_configured": "Loyalty Hub is already configured."
+    },
+    "error": {
+      "secret_key_not_allowed": "This is a secret key (sk_): never paste it here. Use the publishable key (pk_).",
+      "invalid_key": "Not a valid Logo.dev publishable key (it starts with pk_).",
+      "key_rejected": "Logo.dev refused this key: check that you copied the whole publishable key (pk_).",
+      "key_rate_limited": "Logo.dev is limiting requests right now: try again in a few minutes.",
+      "cannot_connect": "Could not reach Logo.dev to test the key: check the connection or untick \"Test the key before saving\"."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Loyalty Hub options",
+        "description": "**Country**: shop list of the guided add for users who did not choose their own country.\n\nPrice comparison sites: one per line as `Name|https://site/search?q={query}`. Suggested for the chosen country:\n{suggested_sites}\n\nOnline logo search: the store domain (e.g. `coop.it`) is sent by Home Assistant to the chosen service. Logo.dev key saved: {token_status}\n\n**Shop logos (Logo.dev)**: Home Assistant downloads each logo once and keeps it; your phones never contact Logo.dev. Only the shop domain (e.g. `coop.it`) is sent to Logo.dev, by the Home Assistant server. One key is enough for the whole household.\n\n**Why Logo.dev is recommended**: it gives the most accurate shop logos. Without a key, the shop's own website sometimes gives small or wrong icons and logoapi.sh often does not find the shop. The key is free and one is enough for the whole household.\n\nHow to get your free key:\n1. Open [logo.dev]({signup_url}) and create a free account.\n2. In the dashboard open the API keys section.\n3. Copy the **Publishable key**: it starts with `pk_`.\n4. **Never** use the Secret key `sk_` (it would be refused).\n5. Paste it in the field below (later: Settings > Devices & services > Loyalty Hub > Configure).\n6. Leave \"Test the key before saving\" on and save.\n\nLogo storage limits apply to all logos together, current and previous versions (max 512 KB each).\n\n**Administrators see and edit all cards**: off by default. When on, administrators can see and edit every user's cards, including private ones (they cannot delete them or change who they are shared with), and every user is shown a notice in the panel. Notifications and export always stay limited to each user's own and shared cards.",
+        "data": {
+          "default_country": "Country",
+          "price_compare": "Price comparison sites",
+          "expiry_warning_days": "Expiry warning (days)",
+          "logo_providers": "Online logo search providers",
+          "logo_dev_token": "Logo.dev publishable key",
+          "test_logo_dev_key": "Test the key before saving",
+          "logo_dev_token_clear": "Remove the saved Logo.dev key",
+          "logo_max_files": "Maximum number of logo files",
+          "logo_max_mb": "Maximum logo storage (MB)",
+          "admin_full_access": "Administrators see and edit all cards"
+        },
+        "data_description": {
+          "default_country": "Users can choose up to two countries of their own in the panel settings.",
+          "price_compare": "`{query}` is replaced with the searched text.",
+          "expiry_warning_days": "Notify cards and vouchers expiring within this many days.",
+          "logo_providers": "Leave empty to allow only uploaded logos.",
+          "logo_dev_token": "Leave empty to keep the saved key. Starts with pk_.",
+          "test_logo_dev_key": "Sends one request to Logo.dev with the new key; if it does not work the form stays open.",
+          "logo_dev_token_clear": "Delete the saved key.",
+          "logo_max_files": "Uploads and downloads beyond this limit are refused (1-2000). Each card can keep two files (current and previous logo).",
+          "logo_max_mb": "Total size of all logos (1-300 MB).",
+          "admin_full_access": "Users will see a notice explaining that administrators can see their private cards."
+        }
+      }
+    },
+    "error": {
+      "invalid_price_sites": "Invalid lines: {invalid}. Use `Name|https://url` and include `{query}`.",
+      "secret_key_not_allowed": "This is a secret key (sk_): never paste it here. Use the publishable key (pk_).",
+      "invalid_key": "Not a valid Logo.dev publishable key (it starts with pk_).",
+      "key_rejected": "Logo.dev refused this key: check that you copied the whole publishable key (pk_).",
+      "key_rate_limited": "Logo.dev is limiting requests right now: try again in a few minutes.",
+      "cannot_connect": "Could not reach Logo.dev to test the key: check the connection or untick \"Test the key before saving\"."
+    }
+  },
+  "selector": {
+    "logo_providers": {
+      "options": {
+        "logoapi": "logoapi.sh (no key)",
+        "logo_dev": "Logo.dev (needs the household's key)",
+        "website": "Store website (favicon / icon)"
+      }
+    },
+    "default_country": {
+      "options": {
+        "ae": "United Arab Emirates",
+        "al": "Albania",
+        "ar": "Argentina",
+        "at": "Austria",
+        "au": "Australia",
+        "ba": "Bosnia and Herzegovina",
+        "be": "Belgium",
+        "bg": "Bulgaria",
+        "bh": "Bahrain",
+        "br": "Brazil",
+        "ca": "Canada",
+        "ch": "Switzerland",
+        "cl": "Chile",
+        "co": "Colombia",
+        "cy": "Cyprus",
+        "cz": "Czechia",
+        "de": "Germany",
+        "dk": "Denmark",
+        "ee": "Estonia",
+        "eg": "Egypt",
+        "es": "Spain",
+        "fi": "Finland",
+        "fr": "France",
+        "gb": "United Kingdom",
+        "ge": "Georgia",
+        "gr": "Greece",
+        "hk": "Hong Kong",
+        "hr": "Croatia",
+        "hu": "Hungary",
+        "id": "Indonesia",
+        "ie": "Ireland",
+        "il": "Israel",
+        "in": "India",
+        "is": "Iceland",
+        "it": "Italy",
+        "jo": "Jordan",
+        "jp": "Japan",
+        "ke": "Kenya",
+        "kr": "South Korea",
+        "kw": "Kuwait",
+        "lb": "Lebanon",
+        "lt": "Lithuania",
+        "lu": "Luxembourg",
+        "lv": "Latvia",
+        "ma": "Morocco",
+        "md": "Moldova",
+        "me": "Montenegro",
+        "mk": "North Macedonia",
+        "mt": "Malta",
+        "mx": "Mexico",
+        "my": "Malaysia",
+        "nl": "Netherlands",
+        "no": "Norway",
+        "nz": "New Zealand",
+        "om": "Oman",
+        "pe": "Peru",
+        "ph": "Philippines",
+        "pk": "Pakistan",
+        "pl": "Poland",
+        "pt": "Portugal",
+        "qa": "Qatar",
+        "ro": "Romania",
+        "rs": "Serbia",
+        "sa": "Saudi Arabia",
+        "se": "Sweden",
+        "sg": "Singapore",
+        "si": "Slovenia",
+        "sk": "Slovakia",
+        "th": "Thailand",
+        "tr": "Türkiye",
+        "tw": "Taiwan",
+        "ua": "Ukraine",
+        "us": "United States",
+        "vn": "Vietnam",
+        "za": "South Africa",
+        "other": "Other (no shop list)"
+      }
+    }
+  }
+}

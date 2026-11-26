@@ -1,0 +1,162 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Loyalty Hub",
+        "description": "Loyalty Hub säilyttää kanta-asiakaskorttisi ja lahjakorttisi Home Assistantissa.\n\n**Kauppojen logot (Logo.dev)**: Home Assistant lataa jokaisen logon kerran ja säilyttää sen; puhelimesi eivät koskaan ota yhteyttä Logo.deviin. Logo.deville lähetetään vain kaupan verkkotunnus (esim. `coop.it`), ja sen lähettää Home Assistant -palvelin. Yksi avain riittää koko kodille.\n\n**Miksi Logo.deviä suositellaan**: se antaa tarkimmat kauppojen logot. Ilman avainta kaupan oma verkkosivusto antaa joskus pieniä tai vääriä kuvakkeita, eikä logoapi.sh usein löydä kauppaa. Avain on ilmainen, ja yksi riittää koko kodille.\n\nNäin saat ilmaisen avaimen:\n1. Avaa [logo.dev]({signup_url}) ja luo ilmainen tili.\n2. Avaa hallintapaneelissa API-avainten osio.\n3. Kopioi **Publishable key**: se alkaa `pk_`.\n4. Älä **koskaan** käytä Secret keytä `sk_` (se hylättäisiin).\n5. Liitä se alla olevaan kenttään (myöhemmin: Asetukset > Laitteet ja palvelut > Loyalty Hub > Määritä).\n6. Jätä ”Testaa avain ennen tallennusta” päälle ja tallenna.\n\nAvain on vapaaehtoinen: ilman sitä voit ladata logoja itse tai käyttää muita palveluita. Maa määrittää ohjatun lisäyksen kauppaluettelon ja ehdotetut hintavertailusivustot.",
+        "data": {
+          "logo_dev_token": "Logo.devin publishable key (valinnainen)",
+          "test_logo_dev_key": "Testaa avain ennen tallennusta",
+          "logo_providers": "Verkkologojen hakupalvelut",
+          "default_country": "Maa"
+        },
+        "data_description": {
+          "logo_dev_token": "Alkaa pk_. Voit lisätä sen myös myöhemmin asetuksista.",
+          "test_logo_dev_key": "Lähettää Logo.deville yhden pyynnön uudella avaimella; jos avain ei toimi, lomake pysyy auki.",
+          "logo_providers": "Poista kaikki valinnat, jos haluat sallia vain itse ladatut logot.",
+          "default_country": "Kauppaluettelo käyttäjille, jotka eivät ole valinneet omaa maata."
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Loyalty Hub on jo määritetty.",
+      "already_configured": "Loyalty Hub on jo määritetty."
+    },
+    "error": {
+      "secret_key_not_allowed": "Tämä on secret key (sk_): älä koskaan liitä sitä tähän. Käytä publishable keytä (pk_).",
+      "invalid_key": "Tämä ei ole kelvollinen Logo.devin publishable key (se alkaa pk_).",
+      "key_rejected": "Logo.dev hylkäsi tämän avaimen: tarkista, että kopioit koko publishable keyn (pk_).",
+      "key_rate_limited": "Logo.dev rajoittaa pyyntöjä juuri nyt: yritä uudelleen muutaman minuutin kuluttua.",
+      "cannot_connect": "Logo.deviin ei saatu yhteyttä avaimen testaamiseksi: tarkista yhteys tai poista valinta ”Testaa avain ennen tallennusta”."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Loyalty Hubin asetukset",
+        "description": "**Maa**: ohjatun lisäyksen kauppaluettelo käyttäjille, jotka eivät ole valinneet omaa maata.\n\nHintavertailusivustot: yksi riville muodossa `Nimi|https://sivusto/search?q={query}`. Ehdotukset valitulle maalle:\n{suggested_sites}\n\nVerkkologojen haku: Home Assistant lähettää kaupan verkkotunnuksen (esim. `coop.it`) valitulle palvelulle. Tallennettu Logo.dev-avain: {token_status}\n\n**Kauppojen logot (Logo.dev)**: Home Assistant lataa jokaisen logon kerran ja säilyttää sen; puhelimesi eivät koskaan ota yhteyttä Logo.deviin. Logo.deville lähetetään vain kaupan verkkotunnus (esim. `coop.it`), ja sen lähettää Home Assistant -palvelin. Yksi avain riittää koko kodille.\n\n**Miksi Logo.deviä suositellaan**: se antaa tarkimmat kauppojen logot. Ilman avainta kaupan oma verkkosivusto antaa joskus pieniä tai vääriä kuvakkeita, eikä logoapi.sh usein löydä kauppaa. Avain on ilmainen, ja yksi riittää koko kodille.\n\nNäin saat ilmaisen avaimen:\n1. Avaa [logo.dev]({signup_url}) ja luo ilmainen tili.\n2. Avaa hallintapaneelissa API-avainten osio.\n3. Kopioi **Publishable key**: se alkaa `pk_`.\n4. Älä **koskaan** käytä Secret keytä `sk_` (se hylättäisiin).\n5. Liitä se alla olevaan kenttään (myöhemmin: Asetukset > Laitteet ja palvelut > Loyalty Hub > Määritä).\n6. Jätä ”Testaa avain ennen tallennusta” päälle ja tallenna.\n\nLogojen tilarajat koskevat kaikkia logoja yhteensä, sekä nykyisiä että edellisiä versioita (enintään 512 kt kukin).\n\n**Järjestelmänvalvojat näkevät ja muokkaavat kaikkia kortteja**: oletuksena pois päältä. Kun asetus on päällä, järjestelmänvalvojat voivat nähdä ja muokata kaikkien käyttäjien kortteja, myös yksityisiä (he eivät voi poistaa niitä eivätkä muuttaa jakamista), ja jokainen käyttäjä näkee ilmoituksen paneelissa. Ilmoitukset ja vienti rajoittuvat aina kunkin käyttäjän omiin ja jaettuihin kortteihin.",
+        "data": {
+          "default_country": "Maa",
+          "price_compare": "Hintavertailusivustot",
+          "expiry_warning_days": "Vanhenemisvaroitus (päivää)",
+          "logo_providers": "Verkkologojen hakupalvelut",
+          "logo_dev_token": "Logo.devin publishable key",
+          "test_logo_dev_key": "Testaa avain ennen tallennusta",
+          "logo_dev_token_clear": "Poista tallennettu Logo.dev-avain",
+          "logo_max_files": "Logotiedostojen enimmäismäärä",
+          "logo_max_mb": "Logojen enimmäistila (Mt)",
+          "admin_full_access": "Järjestelmänvalvojat näkevät ja muokkaavat kaikkia kortteja"
+        },
+        "data_description": {
+          "default_country": "Käyttäjät voivat valita paneelin asetuksissa enintään kaksi omaa maata.",
+          "price_compare": "`{query}` korvataan haetulla tekstillä.",
+          "expiry_warning_days": "Ilmoita korteista ja lahjakorteista, jotka vanhenevat näin monen päivän sisällä.",
+          "logo_providers": "Jätä tyhjäksi, jos haluat sallia vain itse ladatut logot.",
+          "logo_dev_token": "Jätä tyhjäksi säilyttääksesi tallennetun avaimen. Alkaa pk_.",
+          "test_logo_dev_key": "Lähettää Logo.deville yhden pyynnön uudella avaimella; jos avain ei toimi, lomake pysyy auki.",
+          "logo_dev_token_clear": "Poista tallennettu avain.",
+          "logo_max_files": "Tämän rajan ylittävät lataukset hylätään (1-2000). Jokaisella kortilla voi olla kaksi tiedostoa (nykyinen ja edellinen logo).",
+          "logo_max_mb": "Kaikkien logojen yhteiskoko (1-300 Mt).",
+          "admin_full_access": "Käyttäjät näkevät ilmoituksen, jonka mukaan järjestelmänvalvojat voivat nähdä heidän yksityiset korttinsa."
+        }
+      }
+    },
+    "error": {
+      "invalid_price_sites": "Virheelliset rivit: {invalid}. Käytä muotoa `Nimi|https://url` ja lisää `{query}`.",
+      "secret_key_not_allowed": "Tämä on secret key (sk_): älä koskaan liitä sitä tähän. Käytä publishable keytä (pk_).",
+      "invalid_key": "Tämä ei ole kelvollinen Logo.devin publishable key (se alkaa pk_).",
+      "key_rejected": "Logo.dev hylkäsi tämän avaimen: tarkista, että kopioit koko publishable keyn (pk_).",
+      "key_rate_limited": "Logo.dev rajoittaa pyyntöjä juuri nyt: yritä uudelleen muutaman minuutin kuluttua.",
+      "cannot_connect": "Logo.deviin ei saatu yhteyttä avaimen testaamiseksi: tarkista yhteys tai poista valinta ”Testaa avain ennen tallennusta”."
+    }
+  },
+  "selector": {
+    "logo_providers": {
+      "options": {
+        "logoapi": "logoapi.sh (ei avainta)",
+        "logo_dev": "Logo.dev (tarvitsee kodin avaimen)",
+        "website": "Kaupan verkkosivu (favicon / kuvake)"
+      }
+    },
+    "default_country": {
+      "options": {
+        "ae": "Arabiemiirikunnat",
+        "al": "Albania",
+        "ar": "Argentiina",
+        "at": "Itävalta",
+        "au": "Australia",
+        "ba": "Bosnia ja Hertsegovina",
+        "be": "Belgia",
+        "bg": "Bulgaria",
+        "bh": "Bahrain",
+        "br": "Brasilia",
+        "ca": "Kanada",
+        "ch": "Sveitsi",
+        "cl": "Chile",
+        "co": "Kolumbia",
+        "cy": "Kypros",
+        "cz": "Tšekki",
+        "de": "Saksa",
+        "dk": "Tanska",
+        "ee": "Viro",
+        "eg": "Egypti",
+        "es": "Espanja",
+        "fi": "Suomi",
+        "fr": "Ranska",
+        "gb": "Iso-Britannia",
+        "ge": "Georgia",
+        "gr": "Kreikka",
+        "hk": "Hongkong",
+        "hr": "Kroatia",
+        "hu": "Unkari",
+        "id": "Indonesia",
+        "ie": "Irlanti",
+        "il": "Israel",
+        "in": "Intia",
+        "is": "Islanti",
+        "it": "Italia",
+        "jo": "Jordania",
+        "jp": "Japani",
+        "ke": "Kenia",
+        "kr": "Etelä-Korea",
+        "kw": "Kuwait",
+        "lb": "Libanon",
+        "lt": "Liettua",
+        "lu": "Luxemburg",
+        "lv": "Latvia",
+        "ma": "Marokko",
+        "md": "Moldova",
+        "me": "Montenegro",
+        "mk": "Pohjois-Makedonia",
+        "mt": "Malta",
+        "mx": "Meksiko",
+        "my": "Malesia",
+        "nl": "Alankomaat",
+        "no": "Norja",
+        "nz": "Uusi-Seelanti",
+        "om": "Oman",
+        "pe": "Peru",
+        "ph": "Filippiinit",
+        "pk": "Pakistan",
+        "pl": "Puola",
+        "pt": "Portugali",
+        "qa": "Qatar",
+        "ro": "Romania",
+        "rs": "Serbia",
+        "sa": "Saudi-Arabia",
+        "se": "Ruotsi",
+        "sg": "Singapore",
+        "si": "Slovenia",
+        "sk": "Slovakia",
+        "th": "Thaimaa",
+        "tr": "Turkki",
+        "tw": "Taiwan",
+        "ua": "Ukraina",
+        "us": "Yhdysvallat",
+        "vn": "Vietnam",
+        "za": "Etelä-Afrikka",
+        "other": "Muu (ei kauppaluetteloa)"
+      }
+    }
+  }
+}

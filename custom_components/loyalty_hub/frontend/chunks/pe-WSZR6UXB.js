@@ -1,0 +1,1 @@
+import"./chunk-LO2NM3CE.js";var o=[{name:"H&M",domain:"hm.com",color:"#E50010",category:"fashion",aliases:["H&M Member"]},{name:"Primax",domain:"primax.com.pe",color:"#E2001A",category:"fuel",aliases:["Bonus"]}];export{o as SHOPS};

@@ -1,0 +1,162 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Loyalty Hub",
+        "description": "Loyalty Hub îți păstrează cardurile de fidelitate și voucherele în Home Assistant.\n\n**Logourile magazinelor (Logo.dev)**: Home Assistant descarcă fiecare logo o singură dată și îl păstrează; telefoanele tale nu contactează niciodată Logo.dev. Doar domeniul magazinului (ex. `coop.it`) este trimis către Logo.dev, de serverul Home Assistant. O singură cheie ajunge pentru toată casa.\n\n**De ce este recomandat Logo.dev**: oferă cele mai precise logouri ale magazinelor. Fără cheie, site-ul magazinului dă uneori pictograme mici sau greșite, iar logoapi.sh adesea nu găsește magazinul. Cheia este gratuită și una singură ajunge pentru toată casa.\n\nCum obții cheia gratuită:\n1. Deschide [logo.dev]({signup_url}) și creează un cont gratuit.\n2. În panou deschide secțiunea cu cheile API.\n3. Copiază **Publishable key**: începe cu `pk_`.\n4. Nu folosi **niciodată** Secret key `sk_` (ar fi refuzată).\n5. Lipește-o în câmpul de mai jos (mai târziu: Setări > Dispozitive și servicii > Loyalty Hub > Configurează).\n6. Lasă activat „Testează cheia înainte de salvare” și salvează.\n\nCheia este opțională: fără ea poți încărca logouri sau folosi celelalte servicii. Țara alege lista de magazine pentru adăugarea ghidată și site-urile de comparare a prețurilor sugerate.",
+        "data": {
+          "logo_dev_token": "Publishable key Logo.dev (opțional)",
+          "test_logo_dev_key": "Testează cheia înainte de salvare",
+          "logo_providers": "Servicii de căutare a logourilor online",
+          "default_country": "Țară"
+        },
+        "data_description": {
+          "logo_dev_token": "Începe cu pk_. O poți adăuga și mai târziu, din opțiuni.",
+          "test_logo_dev_key": "Trimite o cerere către Logo.dev cu noua cheie; dacă nu funcționează, formularul rămâne deschis.",
+          "logo_providers": "Debifează tot pentru a permite doar logouri încărcate.",
+          "default_country": "Lista de magazine pentru utilizatorii care nu și-au ales propria țară."
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Loyalty Hub este deja configurat.",
+      "already_configured": "Loyalty Hub este deja configurat."
+    },
+    "error": {
+      "secret_key_not_allowed": "Aceasta este o secret key (sk_): nu o lipi niciodată aici. Folosește publishable key (pk_).",
+      "invalid_key": "Nu este o publishable key Logo.dev validă (începe cu pk_).",
+      "key_rejected": "Logo.dev a refuzat această cheie: verifică dacă ai copiat întreaga publishable key (pk_).",
+      "key_rate_limited": "Logo.dev limitează cererile în acest moment: încearcă din nou peste câteva minute.",
+      "cannot_connect": "Logo.dev nu a putut fi contactat pentru testarea cheii: verifică conexiunea sau debifează „Testează cheia înainte de salvare”."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opțiuni Loyalty Hub",
+        "description": "**Țară**: lista de magazine pentru adăugarea ghidată, pentru utilizatorii care nu și-au ales propria țară.\n\nSite-uri de comparare a prețurilor: câte unul pe linie, ca `Nume|https://site/search?q={query}`. Sugerate pentru țara aleasă:\n{suggested_sites}\n\nCăutarea logourilor online: domeniul magazinului (ex. `coop.it`) este trimis de Home Assistant serviciului ales. Cheie Logo.dev salvată: {token_status}\n\n**Logourile magazinelor (Logo.dev)**: Home Assistant descarcă fiecare logo o singură dată și îl păstrează; telefoanele tale nu contactează niciodată Logo.dev. Doar domeniul magazinului (ex. `coop.it`) este trimis către Logo.dev, de serverul Home Assistant. O singură cheie ajunge pentru toată casa.\n\n**De ce este recomandat Logo.dev**: oferă cele mai precise logouri ale magazinelor. Fără cheie, site-ul magazinului dă uneori pictograme mici sau greșite, iar logoapi.sh adesea nu găsește magazinul. Cheia este gratuită și una singură ajunge pentru toată casa.\n\nCum obții cheia gratuită:\n1. Deschide [logo.dev]({signup_url}) și creează un cont gratuit.\n2. În panou deschide secțiunea cu cheile API.\n3. Copiază **Publishable key**: începe cu `pk_`.\n4. Nu folosi **niciodată** Secret key `sk_` (ar fi refuzată).\n5. Lipește-o în câmpul de mai jos (mai târziu: Setări > Dispozitive și servicii > Loyalty Hub > Configurează).\n6. Lasă activat „Testează cheia înainte de salvare” și salvează.\n\nLimitele spațiului pentru logouri se aplică tuturor logourilor împreună, versiuni curente și anterioare (max. 512 KB fiecare).\n\n**Administratorii văd și editează toate cardurile**: dezactivat implicit. Când este activ, administratorii pot vedea și edita cardurile tuturor utilizatorilor, inclusiv pe cele private (nu le pot șterge și nici nu pot schimba cu cine sunt partajate), iar fiecare utilizator vede un anunț în panou. Notificările și exportul rămân mereu limitate la cardurile proprii și partajate ale fiecărui utilizator.",
+        "data": {
+          "default_country": "Țară",
+          "price_compare": "Site-uri de comparare a prețurilor",
+          "expiry_warning_days": "Avertizare de expirare (zile)",
+          "logo_providers": "Servicii de căutare a logourilor online",
+          "logo_dev_token": "Publishable key Logo.dev",
+          "test_logo_dev_key": "Testează cheia înainte de salvare",
+          "logo_dev_token_clear": "Elimină cheia Logo.dev salvată",
+          "logo_max_files": "Număr maxim de fișiere logo",
+          "logo_max_mb": "Spațiu maxim pentru logouri (MB)",
+          "admin_full_access": "Administratorii văd și editează toate cardurile"
+        },
+        "data_description": {
+          "default_country": "Utilizatorii își pot alege până la două țări proprii în setările panoului.",
+          "price_compare": "`{query}` este înlocuit cu textul căutat.",
+          "expiry_warning_days": "Notifică despre cardurile și voucherele care expiră în acest număr de zile.",
+          "logo_providers": "Lasă gol pentru a permite doar logouri încărcate.",
+          "logo_dev_token": "Lasă gol pentru a păstra cheia salvată. Începe cu pk_.",
+          "test_logo_dev_key": "Trimite o cerere către Logo.dev cu noua cheie; dacă nu funcționează, formularul rămâne deschis.",
+          "logo_dev_token_clear": "Șterge cheia salvată.",
+          "logo_max_files": "Încărcările și descărcările peste această limită sunt refuzate (1-2000). Fiecare card poate păstra două fișiere (logoul curent și cel anterior).",
+          "logo_max_mb": "Dimensiunea totală a tuturor logourilor (1-300 MB).",
+          "admin_full_access": "Utilizatorii vor vedea un anunț care explică faptul că administratorii le pot vedea cardurile private."
+        }
+      }
+    },
+    "error": {
+      "invalid_price_sites": "Linii nevalide: {invalid}. Folosește `Nume|https://url` și include `{query}`.",
+      "secret_key_not_allowed": "Aceasta este o secret key (sk_): nu o lipi niciodată aici. Folosește publishable key (pk_).",
+      "invalid_key": "Nu este o publishable key Logo.dev validă (începe cu pk_).",
+      "key_rejected": "Logo.dev a refuzat această cheie: verifică dacă ai copiat întreaga publishable key (pk_).",
+      "key_rate_limited": "Logo.dev limitează cererile în acest moment: încearcă din nou peste câteva minute.",
+      "cannot_connect": "Logo.dev nu a putut fi contactat pentru testarea cheii: verifică conexiunea sau debifează „Testează cheia înainte de salvare”."
+    }
+  },
+  "selector": {
+    "logo_providers": {
+      "options": {
+        "logoapi": "logoapi.sh (fără cheie)",
+        "logo_dev": "Logo.dev (necesită cheia casei)",
+        "website": "Site-ul magazinului (favicon / pictogramă)"
+      }
+    },
+    "default_country": {
+      "options": {
+        "ae": "Emiratele Arabe Unite",
+        "al": "Albania",
+        "ar": "Argentina",
+        "at": "Austria",
+        "au": "Australia",
+        "ba": "Bosnia și Herțegovina",
+        "be": "Belgia",
+        "bg": "Bulgaria",
+        "bh": "Bahrain",
+        "br": "Brazilia",
+        "ca": "Canada",
+        "ch": "Elveția",
+        "cl": "Chile",
+        "co": "Columbia",
+        "cy": "Cipru",
+        "cz": "Cehia",
+        "de": "Germania",
+        "dk": "Danemarca",
+        "ee": "Estonia",
+        "eg": "Egipt",
+        "es": "Spania",
+        "fi": "Finlanda",
+        "fr": "Franța",
+        "gb": "Regatul Unit",
+        "ge": "Georgia",
+        "gr": "Grecia",
+        "hk": "Hong Kong",
+        "hr": "Croația",
+        "hu": "Ungaria",
+        "id": "Indonezia",
+        "ie": "Irlanda",
+        "il": "Israel",
+        "in": "India",
+        "is": "Islanda",
+        "it": "Italia",
+        "jo": "Iordania",
+        "jp": "Japonia",
+        "ke": "Kenya",
+        "kr": "Coreea de Sud",
+        "kw": "Kuweit",
+        "lb": "Liban",
+        "lt": "Lituania",
+        "lu": "Luxemburg",
+        "lv": "Letonia",
+        "ma": "Maroc",
+        "md": "Republica Moldova",
+        "me": "Muntenegru",
+        "mk": "Macedonia de Nord",
+        "mt": "Malta",
+        "mx": "Mexic",
+        "my": "Malaysia",
+        "nl": "Țările de Jos",
+        "no": "Norvegia",
+        "nz": "Noua Zeelandă",
+        "om": "Oman",
+        "pe": "Peru",
+        "ph": "Filipine",
+        "pk": "Pakistan",
+        "pl": "Polonia",
+        "pt": "Portugalia",
+        "qa": "Qatar",
+        "ro": "România",
+        "rs": "Serbia",
+        "sa": "Arabia Saudită",
+        "se": "Suedia",
+        "sg": "Singapore",
+        "si": "Slovenia",
+        "sk": "Slovacia",
+        "th": "Thailanda",
+        "tr": "Turcia",
+        "tw": "Taiwan",
+        "ua": "Ucraina",
+        "us": "Statele Unite",
+        "vn": "Vietnam",
+        "za": "Africa de Sud",
+        "other": "Altă țară (fără listă de magazine)"
+      }
+    }
+  }
+}

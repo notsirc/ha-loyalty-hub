@@ -1,0 +1,1 @@
+import"./chunk-LO2NM3CE.js";var o=[{name:"Decathlon",domain:"decathlon.ma",color:"#3643BA",category:"sport"},{name:"IKEA",domain:"ikea.com",color:"#0058A3",category:"home",aliases:["IKEA Family"]},{name:"Royal Air Maroc",domain:"royalairmaroc.com",color:"#C8102E",category:"travel",aliases:["Safar Flyer"]}];export{o as SHOPS};

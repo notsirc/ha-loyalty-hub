@@ -1,0 +1,162 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Loyalty Hub",
+        "description": "Loyalty Hub sadakat kartlarını ve kuponlarını Home Assistant'ta saklar.\n\n**Mağaza logoları (Logo.dev)**: Home Assistant her logoyu bir kez indirir ve saklar; telefonların Logo.dev ile asla iletişim kurmaz. Logo.dev'e yalnızca mağazanın alan adı (örn. `coop.it`) Home Assistant sunucusu tarafından gönderilir. Tüm ev halkı için tek anahtar yeterlidir.\n\n**Logo.dev neden öneriliyor**: en doğru mağaza logolarını verir. Anahtar olmadan mağazanın kendi web sitesi bazen küçük veya yanlış simgeler verir, logoapi.sh ise çoğu zaman mağazayı bulamaz. Anahtar ücretsizdir ve tüm ev halkı için bir tane yeterlidir.\n\nÜcretsiz anahtarını almak için:\n1. [logo.dev]({signup_url}) adresini aç ve ücretsiz bir hesap oluştur.\n2. Kontrol panelinde API anahtarları bölümünü aç.\n3. **Publishable key** anahtarını kopyala: `pk_` ile başlar.\n4. Secret key `sk_` anahtarını **asla** kullanma (reddedilir).\n5. Aşağıdaki alana yapıştır (sonradan: Ayarlar > Cihazlar ve hizmetler > Loyalty Hub > Yapılandır).\n6. “Kaydetmeden önce anahtarı test et” seçeneğini açık bırak ve kaydet.\n\nAnahtar isteğe bağlıdır: anahtar olmadan logo yükleyebilir veya diğer hizmetleri kullanabilirsin. Ülke, rehberli eklemenin mağaza listesini ve önerilen fiyat karşılaştırma sitelerini belirler.",
+        "data": {
+          "logo_dev_token": "Logo.dev publishable key (isteğe bağlı)",
+          "test_logo_dev_key": "Kaydetmeden önce anahtarı test et",
+          "logo_providers": "Çevrimiçi logo arama hizmetleri",
+          "default_country": "Ülke"
+        },
+        "data_description": {
+          "logo_dev_token": "pk_ ile başlar. Daha sonra seçeneklerden de ekleyebilirsin.",
+          "test_logo_dev_key": "Yeni anahtarla Logo.dev'e bir istek gönderir; çalışmazsa form açık kalır.",
+          "logo_providers": "Yalnızca yüklenen logolara izin vermek için tümünün işaretini kaldır.",
+          "default_country": "Kendi ülkesini seçmemiş kullanıcılar için mağaza listesi."
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Loyalty Hub zaten yapılandırılmış.",
+      "already_configured": "Loyalty Hub zaten yapılandırılmış."
+    },
+    "error": {
+      "secret_key_not_allowed": "Bu bir secret key (sk_): asla buraya yapıştırma. Publishable key (pk_) kullan.",
+      "invalid_key": "Geçerli bir Logo.dev publishable key değil (pk_ ile başlar).",
+      "key_rejected": "Logo.dev bu anahtarı reddetti: publishable key'in tamamını kopyaladığından emin ol (pk_).",
+      "key_rate_limited": "Logo.dev şu anda istekleri sınırlıyor: birkaç dakika sonra tekrar dene.",
+      "cannot_connect": "Anahtarı test etmek için Logo.dev'e ulaşılamadı: bağlantıyı kontrol et veya “Kaydetmeden önce anahtarı test et” işaretini kaldır."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Loyalty Hub seçenekleri",
+        "description": "**Ülke**: kendi ülkesini seçmemiş kullanıcılar için rehberli eklemenin mağaza listesi.\n\nFiyat karşılaştırma siteleri: her satıra bir tane, `Ad|https://site/search?q={query}` biçiminde. Seçilen ülke için öneriler:\n{suggested_sites}\n\nÇevrimiçi logo arama: mağazanın alan adı (örn. `coop.it`) Home Assistant tarafından seçilen hizmete gönderilir. Kayıtlı Logo.dev anahtarı: {token_status}\n\n**Mağaza logoları (Logo.dev)**: Home Assistant her logoyu bir kez indirir ve saklar; telefonların Logo.dev ile asla iletişim kurmaz. Logo.dev'e yalnızca mağazanın alan adı (örn. `coop.it`) Home Assistant sunucusu tarafından gönderilir. Tüm ev halkı için tek anahtar yeterlidir.\n\n**Logo.dev neden öneriliyor**: en doğru mağaza logolarını verir. Anahtar olmadan mağazanın kendi web sitesi bazen küçük veya yanlış simgeler verir, logoapi.sh ise çoğu zaman mağazayı bulamaz. Anahtar ücretsizdir ve tüm ev halkı için bir tane yeterlidir.\n\nÜcretsiz anahtarını almak için:\n1. [logo.dev]({signup_url}) adresini aç ve ücretsiz bir hesap oluştur.\n2. Kontrol panelinde API anahtarları bölümünü aç.\n3. **Publishable key** anahtarını kopyala: `pk_` ile başlar.\n4. Secret key `sk_` anahtarını **asla** kullanma (reddedilir).\n5. Aşağıdaki alana yapıştır (sonradan: Ayarlar > Cihazlar ve hizmetler > Loyalty Hub > Yapılandır).\n6. “Kaydetmeden önce anahtarı test et” seçeneğini açık bırak ve kaydet.\n\nLogo alanı sınırları, mevcut ve önceki sürümler dahil tüm logolar için toplamda geçerlidir (her biri en fazla 512 KB).\n\n**Yöneticiler tüm kartları görür ve düzenler**: varsayılan olarak kapalı. Açıkken yöneticiler, özel olanlar dahil tüm kullanıcıların kartlarını görebilir ve düzenleyebilir (silemez ve kimlerle paylaşıldığını değiştiremez); her kullanıcı panelde bir bildirim görür. Bildirimler ve dışa aktarma her zaman her kullanıcının kendi ve paylaşılan kartlarıyla sınırlı kalır.",
+        "data": {
+          "default_country": "Ülke",
+          "price_compare": "Fiyat karşılaştırma siteleri",
+          "expiry_warning_days": "Son kullanma uyarısı (gün)",
+          "logo_providers": "Çevrimiçi logo arama hizmetleri",
+          "logo_dev_token": "Logo.dev publishable key",
+          "test_logo_dev_key": "Kaydetmeden önce anahtarı test et",
+          "logo_dev_token_clear": "Kayıtlı Logo.dev anahtarını kaldır",
+          "logo_max_files": "En fazla logo dosyası sayısı",
+          "logo_max_mb": "En fazla logo alanı (MB)",
+          "admin_full_access": "Yöneticiler tüm kartları görür ve düzenler"
+        },
+        "data_description": {
+          "default_country": "Kullanıcılar panel ayarlarında en fazla iki ülke seçebilir.",
+          "price_compare": "`{query}` aranan metinle değiştirilir.",
+          "expiry_warning_days": "Bu kadar gün içinde süresi dolacak kartlar ve kuponlar için bildir.",
+          "logo_providers": "Yalnızca yüklenen logolara izin vermek için boş bırak.",
+          "logo_dev_token": "Kayıtlı anahtarı korumak için boş bırak. pk_ ile başlar.",
+          "test_logo_dev_key": "Yeni anahtarla Logo.dev'e bir istek gönderir; çalışmazsa form açık kalır.",
+          "logo_dev_token_clear": "Kayıtlı anahtarı siler.",
+          "logo_max_files": "Bu sınırın üzerindeki yüklemeler ve indirmeler reddedilir (1-2000). Her kart iki dosya tutabilir (mevcut ve önceki logo).",
+          "logo_max_mb": "Tüm logoların toplam boyutu (1-300 MB).",
+          "admin_full_access": "Kullanıcılar, yöneticilerin özel kartlarını görebildiğini açıklayan bir bildirim görür."
+        }
+      }
+    },
+    "error": {
+      "invalid_price_sites": "Geçersiz satırlar: {invalid}. `Ad|https://url` biçimini kullan ve `{query}` ekle.",
+      "secret_key_not_allowed": "Bu bir secret key (sk_): asla buraya yapıştırma. Publishable key (pk_) kullan.",
+      "invalid_key": "Geçerli bir Logo.dev publishable key değil (pk_ ile başlar).",
+      "key_rejected": "Logo.dev bu anahtarı reddetti: publishable key'in tamamını kopyaladığından emin ol (pk_).",
+      "key_rate_limited": "Logo.dev şu anda istekleri sınırlıyor: birkaç dakika sonra tekrar dene.",
+      "cannot_connect": "Anahtarı test etmek için Logo.dev'e ulaşılamadı: bağlantıyı kontrol et veya “Kaydetmeden önce anahtarı test et” işaretini kaldır."
+    }
+  },
+  "selector": {
+    "logo_providers": {
+      "options": {
+        "logoapi": "logoapi.sh (anahtarsız)",
+        "logo_dev": "Logo.dev (ev halkının anahtarı gerekir)",
+        "website": "Mağaza web sitesi (favicon / simge)"
+      }
+    },
+    "default_country": {
+      "options": {
+        "ae": "Birleşik Arap Emirlikleri",
+        "al": "Arnavutluk",
+        "ar": "Arjantin",
+        "at": "Avusturya",
+        "au": "Avustralya",
+        "ba": "Bosna-Hersek",
+        "be": "Belçika",
+        "bg": "Bulgaristan",
+        "bh": "Bahreyn",
+        "br": "Brezilya",
+        "ca": "Kanada",
+        "ch": "İsviçre",
+        "cl": "Şili",
+        "co": "Kolombiya",
+        "cy": "Kıbrıs",
+        "cz": "Çekya",
+        "de": "Almanya",
+        "dk": "Danimarka",
+        "ee": "Estonya",
+        "eg": "Mısır",
+        "es": "İspanya",
+        "fi": "Finlandiya",
+        "fr": "Fransa",
+        "gb": "Birleşik Krallık",
+        "ge": "Gürcistan",
+        "gr": "Yunanistan",
+        "hk": "Hong Kong",
+        "hr": "Hırvatistan",
+        "hu": "Macaristan",
+        "id": "Endonezya",
+        "ie": "İrlanda",
+        "il": "İsrail",
+        "in": "Hindistan",
+        "is": "İzlanda",
+        "it": "İtalya",
+        "jo": "Ürdün",
+        "jp": "Japonya",
+        "ke": "Kenya",
+        "kr": "Güney Kore",
+        "kw": "Kuveyt",
+        "lb": "Lübnan",
+        "lt": "Litvanya",
+        "lu": "Lüksemburg",
+        "lv": "Letonya",
+        "ma": "Fas",
+        "md": "Moldova",
+        "me": "Karadağ",
+        "mk": "Kuzey Makedonya",
+        "mt": "Malta",
+        "mx": "Meksika",
+        "my": "Malezya",
+        "nl": "Hollanda",
+        "no": "Norveç",
+        "nz": "Yeni Zelanda",
+        "om": "Umman",
+        "pe": "Peru",
+        "ph": "Filipinler",
+        "pk": "Pakistan",
+        "pl": "Polonya",
+        "pt": "Portekiz",
+        "qa": "Katar",
+        "ro": "Romanya",
+        "rs": "Sırbistan",
+        "sa": "Suudi Arabistan",
+        "se": "İsveç",
+        "sg": "Singapur",
+        "si": "Slovenya",
+        "sk": "Slovakya",
+        "th": "Tayland",
+        "tr": "Türkiye",
+        "tw": "Tayvan",
+        "ua": "Ukrayna",
+        "us": "Amerika Birleşik Devletleri",
+        "vn": "Vietnam",
+        "za": "Güney Afrika",
+        "other": "Diğer (mağaza listesi yok)"
+      }
+    }
+  }
+}

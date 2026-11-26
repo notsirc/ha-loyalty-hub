@@ -1,0 +1,162 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Loyalty Hub",
+        "description": "Loyalty Hub bewaart je klantenkaarten en tegoedbonnen in Home Assistant.\n\n**Winkellogo's (Logo.dev)**: Home Assistant downloadt elk logo één keer en bewaart het; je telefoons maken nooit contact met Logo.dev. Alleen het winkeldomein (bijv. `coop.it`) wordt naar Logo.dev gestuurd, door de Home Assistant-server. Eén sleutel is genoeg voor het hele huishouden.\n\n**Waarom Logo.dev wordt aanbevolen**: het geeft de meest correcte winkellogo's. Zonder sleutel geeft de website van de winkel zelf soms kleine of verkeerde pictogrammen en vindt logoapi.sh de winkel vaak niet. De sleutel is gratis en één is genoeg voor het hele huishouden.\n\nZo krijg je je gratis sleutel:\n1. Open [logo.dev]({signup_url}) en maak een gratis account aan.\n2. Open in het dashboard het onderdeel met de API-sleutels.\n3. Kopieer de **Publishable key**: die begint met `pk_`.\n4. Gebruik **nooit** de Secret key `sk_` (die zou worden geweigerd).\n5. Plak hem in het veld hieronder (later: Instellingen > Apparaten & diensten > Loyalty Hub > Configureren).\n6. Laat \"Sleutel testen voor het opslaan\" aan staan en sla op.\n\nDe sleutel is optioneel: zonder sleutel kun je logo's uploaden of de andere aanbieders gebruiken. Het land bepaalt de winkellijst bij het begeleid toevoegen en de voorgestelde prijsvergelijkingssites.",
+        "data": {
+          "logo_dev_token": "Logo.dev publishable key (optioneel)",
+          "test_logo_dev_key": "Sleutel testen voor het opslaan",
+          "logo_providers": "Aanbieders voor online logo's zoeken",
+          "default_country": "Land"
+        },
+        "data_description": {
+          "logo_dev_token": "Begint met pk_. Je kunt hem ook later in de opties toevoegen.",
+          "test_logo_dev_key": "Stuurt één verzoek met de nieuwe sleutel naar Logo.dev; als hij niet werkt, blijft het formulier open.",
+          "logo_providers": "Vink alles uit om alleen geüploade logo's toe te staan.",
+          "default_country": "Winkellijst voor gebruikers die geen eigen land hebben gekozen."
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Loyalty Hub is al geconfigureerd.",
+      "already_configured": "Loyalty Hub is al geconfigureerd."
+    },
+    "error": {
+      "secret_key_not_allowed": "Dit is een geheime sleutel (sk_): plak hem hier nooit. Gebruik de publishable key (pk_).",
+      "invalid_key": "Geen geldige Logo.dev publishable key (die begint met pk_).",
+      "key_rejected": "Logo.dev heeft deze sleutel geweigerd: controleer of je de hele publishable key (pk_) hebt gekopieerd.",
+      "key_rate_limited": "Logo.dev beperkt nu de verzoeken: probeer het over een paar minuten opnieuw.",
+      "cannot_connect": "Kon Logo.dev niet bereiken om de sleutel te testen: controleer de verbinding of vink \"Sleutel testen voor het opslaan\" uit."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opties van Loyalty Hub",
+        "description": "**Land**: winkellijst bij het begeleid toevoegen voor gebruikers die geen eigen land hebben gekozen.\n\nPrijsvergelijkingssites: één per regel als `Naam|https://site/search?q={query}`. Voorgesteld voor het gekozen land:\n{suggested_sites}\n\nOnline logo's zoeken: het winkeldomein (bijv. `coop.it`) wordt door Home Assistant naar de gekozen dienst gestuurd. Logo.dev-sleutel opgeslagen: {token_status}\n\n**Winkellogo's (Logo.dev)**: Home Assistant downloadt elk logo één keer en bewaart het; je telefoons maken nooit contact met Logo.dev. Alleen het winkeldomein (bijv. `coop.it`) wordt naar Logo.dev gestuurd, door de Home Assistant-server. Eén sleutel is genoeg voor het hele huishouden.\n\n**Waarom Logo.dev wordt aanbevolen**: het geeft de meest correcte winkellogo's. Zonder sleutel geeft de website van de winkel zelf soms kleine of verkeerde pictogrammen en vindt logoapi.sh de winkel vaak niet. De sleutel is gratis en één is genoeg voor het hele huishouden.\n\nZo krijg je je gratis sleutel:\n1. Open [logo.dev]({signup_url}) en maak een gratis account aan.\n2. Open in het dashboard het onderdeel met de API-sleutels.\n3. Kopieer de **Publishable key**: die begint met `pk_`.\n4. Gebruik **nooit** de Secret key `sk_` (die zou worden geweigerd).\n5. Plak hem in het veld hieronder (later: Instellingen > Apparaten & diensten > Loyalty Hub > Configureren).\n6. Laat \"Sleutel testen voor het opslaan\" aan staan en sla op.\n\nDe limieten van de logo-opslag gelden voor alle logo's samen, huidige en vorige versies (max. 512 KB per logo).\n\n**Beheerders zien en bewerken alle kaarten**: standaard uit. Als dit aan staat, kunnen beheerders de kaarten van elke gebruiker zien en bewerken, ook privékaarten (ze kunnen ze niet verwijderen en niet wijzigen met wie ze gedeeld zijn), en elke gebruiker krijgt een melding in het paneel. Meldingen en export blijven altijd beperkt tot de eigen en gedeelde kaarten van elke gebruiker.",
+        "data": {
+          "default_country": "Land",
+          "price_compare": "Prijsvergelijkingssites",
+          "expiry_warning_days": "Waarschuwing voor verlopen (dagen)",
+          "logo_providers": "Aanbieders voor online logo's zoeken",
+          "logo_dev_token": "Logo.dev publishable key",
+          "test_logo_dev_key": "Sleutel testen voor het opslaan",
+          "logo_dev_token_clear": "Opgeslagen Logo.dev-sleutel verwijderen",
+          "logo_max_files": "Maximaal aantal logobestanden",
+          "logo_max_mb": "Maximale logo-opslag (MB)",
+          "admin_full_access": "Beheerders zien en bewerken alle kaarten"
+        },
+        "data_description": {
+          "default_country": "Gebruikers kunnen in de instellingen van het paneel tot twee eigen landen kiezen.",
+          "price_compare": "`{query}` wordt vervangen door de gezochte tekst.",
+          "expiry_warning_days": "Melden over kaarten en tegoedbonnen die binnen zoveel dagen verlopen.",
+          "logo_providers": "Leeg laten om alleen geüploade logo's toe te staan.",
+          "logo_dev_token": "Leeg laten om de opgeslagen sleutel te houden. Begint met pk_.",
+          "test_logo_dev_key": "Stuurt één verzoek met de nieuwe sleutel naar Logo.dev; als hij niet werkt, blijft het formulier open.",
+          "logo_dev_token_clear": "De opgeslagen sleutel verwijderen.",
+          "logo_max_files": "Uploads en downloads boven deze limiet worden geweigerd (1-2000). Elke kaart kan twee bestanden bewaren (huidig en vorig logo).",
+          "logo_max_mb": "Totale grootte van alle logo's (1-300 MB).",
+          "admin_full_access": "Gebruikers zien een melding dat beheerders hun privékaarten kunnen zien."
+        }
+      }
+    },
+    "error": {
+      "invalid_price_sites": "Ongeldige regels: {invalid}. Gebruik `Naam|https://url` en neem `{query}` op.",
+      "secret_key_not_allowed": "Dit is een geheime sleutel (sk_): plak hem hier nooit. Gebruik de publishable key (pk_).",
+      "invalid_key": "Geen geldige Logo.dev publishable key (die begint met pk_).",
+      "key_rejected": "Logo.dev heeft deze sleutel geweigerd: controleer of je de hele publishable key (pk_) hebt gekopieerd.",
+      "key_rate_limited": "Logo.dev beperkt nu de verzoeken: probeer het over een paar minuten opnieuw.",
+      "cannot_connect": "Kon Logo.dev niet bereiken om de sleutel te testen: controleer de verbinding of vink \"Sleutel testen voor het opslaan\" uit."
+    }
+  },
+  "selector": {
+    "logo_providers": {
+      "options": {
+        "logoapi": "logoapi.sh (geen sleutel)",
+        "logo_dev": "Logo.dev (heeft de sleutel van het huishouden nodig)",
+        "website": "Website van de winkel (favicon / icoon)"
+      }
+    },
+    "default_country": {
+      "options": {
+        "ae": "Verenigde Arabische Emiraten",
+        "al": "Albanië",
+        "ar": "Argentinië",
+        "at": "Oostenrijk",
+        "au": "Australië",
+        "ba": "Bosnië en Herzegovina",
+        "be": "België",
+        "bg": "Bulgarije",
+        "bh": "Bahrein",
+        "br": "Brazilië",
+        "ca": "Canada",
+        "ch": "Zwitserland",
+        "cl": "Chili",
+        "co": "Colombia",
+        "cy": "Cyprus",
+        "cz": "Tsjechië",
+        "de": "Duitsland",
+        "dk": "Denemarken",
+        "ee": "Estland",
+        "eg": "Egypte",
+        "es": "Spanje",
+        "fi": "Finland",
+        "fr": "Frankrijk",
+        "gb": "Verenigd Koninkrijk",
+        "ge": "Georgië",
+        "gr": "Griekenland",
+        "hk": "Hongkong",
+        "hr": "Kroatië",
+        "hu": "Hongarije",
+        "id": "Indonesië",
+        "ie": "Ierland",
+        "il": "Israël",
+        "in": "India",
+        "is": "IJsland",
+        "it": "Italië",
+        "jo": "Jordanië",
+        "jp": "Japan",
+        "ke": "Kenia",
+        "kr": "Zuid-Korea",
+        "kw": "Koeweit",
+        "lb": "Libanon",
+        "lt": "Litouwen",
+        "lu": "Luxemburg",
+        "lv": "Letland",
+        "ma": "Marokko",
+        "md": "Moldavië",
+        "me": "Montenegro",
+        "mk": "Noord-Macedonië",
+        "mt": "Malta",
+        "mx": "Mexico",
+        "my": "Maleisië",
+        "nl": "Nederland",
+        "no": "Noorwegen",
+        "nz": "Nieuw-Zeeland",
+        "om": "Oman",
+        "pe": "Peru",
+        "ph": "Filipijnen",
+        "pk": "Pakistan",
+        "pl": "Polen",
+        "pt": "Portugal",
+        "qa": "Qatar",
+        "ro": "Roemenië",
+        "rs": "Servië",
+        "sa": "Saoedi-Arabië",
+        "se": "Zweden",
+        "sg": "Singapore",
+        "si": "Slovenië",
+        "sk": "Slowakije",
+        "th": "Thailand",
+        "tr": "Turkije",
+        "tw": "Taiwan",
+        "ua": "Oekraïne",
+        "us": "Verenigde Staten",
+        "vn": "Vietnam",
+        "za": "Zuid-Afrika",
+        "other": "Anders (geen winkellijst)"
+      }
+    }
+  }
+}

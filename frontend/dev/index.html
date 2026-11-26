@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Loyalty Hub dev</title>
+  <style>
+    :root {
+      --primary-color: #03a9f4; --card-background-color: #fff; --primary-background-color: #fafafa;
+      --primary-text-color: #212121; --secondary-text-color: #727272; --divider-color: #e0e0e0;
+      --ha-card-border-radius: 12px; --text-primary-color: #fff;
+    }
+    body { margin: 0; background: var(--primary-background-color); font-family: Roboto, sans-serif; }
+    ha-icon { display: inline-block; width: 20px; height: 20px; }
+    ha-card { display: block; background: var(--card-background-color); border-radius: 12px; margin: 16px; }
+  </style>
+</head>
+<body>
+  <!-- Dev-only harness with a mocked `hass`. Serve the project root statically and open /frontend/dev/. -->
+  <loyalty-hub-panel narrow></loyalty-hub-panel>
+  <div style="max-width:420px"><loyalty-hub-card id="card"></loyalty-hub-card></div>
+  <script type="module">
+    const now = new Date().toISOString();
+    // Locally generated mock logos (no external URLs).
+    function makeLogo(draw, w = 256, h = 160) {
+      const c = document.createElement("canvas"); c.width = w; c.height = h;
+      const x = c.getContext("2d"); draw(x, w, h); return c.toDataURL("image/png");
+    }
+    const logos = {
+      a1: makeLogo((x, w, h) => { x.fillStyle = "#fff"; x.font = "bold 64px sans-serif"; x.textAlign = "center";
+        x.textBaseline = "middle"; x.fillText("ROSSI", w / 2, h / 2 - 8); x.fillRect(40, h - 34, w - 80, 8); }),
+      d4: makeLogo((x, w, h) => { x.fillStyle = "#FFD200"; x.beginPath(); x.arc(70, h / 2, 46, 0, 7); x.fill();
+        x.fillStyle = "#fff"; x.font = "bold 54px sans-serif"; x.textBaseline = "middle"; x.fillText("coop", 120, h / 2); }),
+      e5: makeLogo((x, w, h) => { const g = x.createLinearGradient(0, 0, w, h); g.addColorStop(0, "#6a1b9a");
+        g.addColorStop(1, "#ec407a"); x.fillStyle = g; x.fillRect(0, 0, w, h); x.fillStyle = "#fff";
+        x.font = "italic bold 40px serif"; x.textAlign = "center"; x.fillText("Photo card", w / 2, h / 2 + 12); }, 428, 270),
+    };
+    const logoMeta = (v = 1) => ({ source: "upload", mime: "image/png", updated_at: now, version: v });
+    const base = { notes: "", points: null, visibility: "private", shared_with: [], zones: [], favorite: false, expiry: null,
+      currency: "EUR", initial_balance: null, transactions: [], balance: null, use_count: 0, last_used: null,
+      created_at: now, updated_at: now, can_edit: true, can_manage: true, admin_view: false, owner_name: "Alice", owner_id: "u1", kind: "card",
+      locations: [], usage: new Array(42).fill(0), balance_corner: "bottom_right", balance_size: "s",
+      logo_domain: null, logo_fit: "contain", logo: null, logo_previous: null, barcode_format: "CODE_128",
+      shop_custom: false, suggest_shop: true,
+      short_name: "", todo_entity: null, points_expiry: null, points_history: [], created_by: null,
+      created_by_name: "", transferred_by_name: "", transferred_at: null };
+    let cards = [
+      { ...base, id: "d4", name: "Coop", code: "2501234567", color: "#E2001A", favorite: true, use_count: 12,
+        logo: logoMeta(), logo_domain: "coop.it" },
+      { ...base, id: "e5", name: "Profumeria Bella", code: "PB-9988", color: "#6A1B9A", logo: logoMeta(), logo_fit: "cover",
+        use_count: 3 },
+      { ...base, id: "f6", name: "Decathlon", code: "2090012345678", color: "#0082C3", use_count: 2 },
+      { ...base, id: "g7", name: "Ferramenta Bianchi & Figli Srl", code: "FB-1", color: "#F5F5F5", use_count: 1 },
+      { ...base, id: "h8", name: "Bar", code: "BAR-7", color: "#37474F", favorite: true, visibility: "shared", shared_with: ["*"] },
+      { id: "a1", owner_id: "u1", kind: "card", name: "Super Rossi", code: "8001234567897", barcode_format: "EAN_13",
+        color: "#C62828", notes: "", points: 1250, visibility: "shared", shared_with: ["*"], zones: ["zone.super_rossi"],
+        favorite: true, expiry: null, currency: "EUR", initial_balance: null, transactions: [], balance: null,
+        use_count: 5, last_used: now, created_at: now, updated_at: now, can_edit: true, owner_name: "Alice",
+        logo: logoMeta(2), logo_previous: logoMeta(1), logo_fit: "contain", logo_domain: null },
+      { id: "b2", owner_id: "u1", kind: "voucher", name: "Buono Libreria", code: "GIFT-42-XYZ", barcode_format: "QR_CODE",
+        color: "#2E7D32", notes: "Regalo compleanno", points: null, visibility: "private", shared_with: [], zones: [],
+        favorite: false, expiry: "2026-12-31", currency: "EUR", initial_balance: 50,
+        transactions: [{ id: "t1", date: now, amount: 12.5, note: "Romanzo", user_id: "u1" }], balance: 37.5,
+        use_count: 1, last_used: null, created_at: now, updated_at: now, can_edit: true, owner_name: "Alice" },
+      { id: "c3", owner_id: "u2", kind: "card", name: "Farmacia", code: "A123456B", barcode_format: "CODABAR",
+        color: "#F9A825", notes: "", points: null, visibility: "shared", shared_with: ["u1"], zones: [],
+        favorite: false, expiry: null, currency: "EUR", initial_balance: null, transactions: [], balance: null,
+        use_count: 9, last_used: null, created_at: now, updated_at: now, can_edit: false, owner_name: "Bob" },
+      // §15.3 group demo: Bob's Coop (same domain as d4) shared with Alice, created for Bob by Alice.
+      { ...base, id: "k1", owner_id: "u2", owner_name: "Bob", name: "Coop", code: "2509876543", color: "#E2001A",
+        logo: logoMeta(), logo_domain: "coop.it", visibility: "shared", shared_with: ["u1"], created_at: "2026-01-02T10:00:00Z",
+        created_by: "u1", created_by_name: "Alice" },
+      // §15.4: a card Bob created for Alice.
+      { ...base, id: "m2", name: "Conad", code: "CON-123", color: "#E30613", logo_domain: "conad.it",
+        created_by: "u2", created_by_name: "Bob", todo_entity: "todo.spesa", points: 340, points_expiry: "2026-12-10",
+        points_history: [{ date: "2026-08-01", points: 120 }, { date: "2026-09-15", points: 210 }, { date: "2026-11-01", points: 340 }] },
+      { ...base, id: "r9", kind: "voucher", name: "Carta Regalo Ricaricabile", code: "RC-555", color: "#00838F",
+        reloadable: true, initial_balance: 20, balance: 35,
+        transactions: [{ id: "t2", date: now, amount: 25, note: "", user_id: "u1", type: "topup" },
+          { id: "t3", date: now, amount: 10, note: "Pranzo", user_id: "u1", type: "spend" }] },
+    ];
+    // §10.1 balance: initial − spend + topup (reloadable with null initial counts as 0).
+    // §11 mock options: ?admin=1 (current user is admin), ?adminall=1 (admin "see everything" option on).
+    // §12 mock options: ?request=1 (an admin asks Alice to restore "Vecchia tessera" from the trash).
+    const qs = new URLSearchParams(location.search);
+    const isAdmin = qs.has("admin"), adminAll = qs.has("adminall");
+    // Normalize v0.4 fields on cards defined without `base`, plus a private card of Bob (admin_view demo).
+    if (adminAll && isAdmin) cards.push({ ...base, id: "p0", owner_id: "u2", owner_name: "Bob", name: "Privata di Bob",
+      code: "BOB-1", color: "#5D4037", can_manage: false, admin_view: true });
+    cards = cards.map((c) => ({ ...base, ...c, can_manage: c.owner_id === "u1",
+      can_edit: c.owner_id === "u1" || isAdmin }));
+    cards.find((c) => c.id === "d4").locations = [{ id: "l1", lat: 45.4642, lon: 9.19 }];
+    cards.find((c) => c.id === "f6").usage = cards[0].usage.map((_, i) => (i % 6 === Math.floor(new Date().getHours() / 4) ? 3 : 0));
+    const names = { u1: "Alice", u2: "Bob", u3: "Carol" };
+    // §10.1/§11.4 balance: initial − spend + topup + adjust (null initial counts as 0 if reloadable or adjusted).
+    const recalc = (c) => { const adj = c.transactions.some((t) => t.type === "adjust");
+      const init = c.initial_balance ?? (c.reloadable || adj ? 0 : null);
+      c.transactions.forEach((t) => { t.user_name = names[t.user_id] ?? ""; });
+      c.balance = init === null ? null : Math.round((init + c.transactions.reduce((a, t) =>
+        a + (t.type === "topup" || t.type === "adjust" ? t.amount : -t.amount), 0)) * 100) / 100; return c; };
+    cards.forEach(recalc);
+    const find = (m) => { const c = cards.find((x) => x.id === m.card_id); if (!c) throw { code: "not_found", message: "not found" }; return c; };
+    let prefs = { user_id: "u1", notify_service: null, zone_notifications: true, expiry_notifications: true,
+      price_compare: true, price_compare_sites: null, nearby: true, admin_notice_accepted: null,
+      grouping: true, group_split: [], group_links: [], group_tabs: {}, group_names: {}, refuse_from_others: false, inbox_notifications: true,
+      features_off: [], default_share: null, list_order: "habits", manual_order: [], low_balance_threshold: null,
+      cashier_high_contrast: false };
+    // §15.5 mock options: ?features=all or ?features=nfc,low_balance,... (default: all off, as a new installation).
+    const FEATURE_IDS = ["nfc", "shopping_list", "unused_reminder", "points_history", "points_expiry",
+      "default_sharing", "manual_order", "low_balance", "find_by_code", "high_contrast_cashier"];
+    const featArg = qs.get("features") ?? "";
+    let features = Object.fromEntries(FEATURE_IDS.map((f) => [f, featArg === "all" || featArg.split(",").includes(f)]));
+    const needFeature = (f) => { if (!features[f]) throw { code: "feature_disabled", message: "Feature disabled" }; };
+    // §15.4 mock inbox (?inbox=1) and recipients refusing cards (?refuse=u3).
+    let inbox = qs.has("inbox") ? [{ card_id: "m2", card_name: "Conad", by_name: "Bob", at: now, kind: "created" }] : [];
+    const refusing = (qs.get("refuse") ?? "").split(",");
+    let nfcTags = [{ tag_id: "tag-1234abcd", card_id: "d4", tag_name: "Portafoglio" }];
+    const checkRecipient = (id) => { if (!names[id] || id === "u1") throw { code: "invalid_format", message: "Unknown user" };
+      if (refusing.includes(id)) throw { code: "recipient_refuses", message: names[id] + " does not accept cards from others" }; };
+    // §12 mock trash: "Vecchia tessera" is Alice's (pending admin request with ?request=1);
+    // "Tessera di Bob" is visible only with ?admin=1. `emit` pushes subscribe events to panel and card.
+    const subs = [];
+    const emit = (ev) => setTimeout(() => subs.forEach((cb) => cb(ev)), 50);
+    const day = 86400000;
+    const trashEntry = (c, extra = {}) => ({ card: c, deleted_at: new Date().toISOString(), purge_at: null, request: null,
+      rejections: 0, blocked: false, sends: 0, ...extra });
+    let trash = [
+      trashEntry({ ...base, id: "t1x", name: "Vecchia tessera", code: "OLD-1", color: "#455A64", logo: null },
+        { deleted_at: new Date(Date.now() - 3 * day).toISOString(),
+          request: qs.has("request") ? { status: "pending", admin_name: "Carol", last_sent_at: now } : null, sends: qs.has("request") ? 2 : 0 }),
+      trashEntry({ ...base, id: "t2x", owner_id: "u2", owner_name: "Bob", name: "Tessera di Bob", code: "BOB-T", color: "#8D6E63",
+        can_manage: false }, { deleted_at: new Date(Date.now() - 10 * day).toISOString(), rejections: 1 }),
+    ];
+    const findTrash = (m) => { const e = trash.find((x) => x.card.id === m.card_id); if (!e) throw { code: "not_found", message: "not found" }; return e; };
+    const trashItem = (e) => { const own = e.card.owner_id === "u1";
+      return { card_id: e.card.id, name: e.card.name, kind: e.card.kind, color: e.card.color, owner_id: e.card.owner_id,
+        owner_name: names[e.card.owner_id] ?? "", is_own: own, deleted_at: e.deleted_at,
+        expires_at: new Date(Date.parse(e.deleted_at) + 15 * day).toISOString(), purge_at: e.purge_at,
+        logo: own && e.card.logo ? { version: e.card.logo.version, mime: e.card.logo.mime } : null,
+        logo_fit: own ? e.card.logo_fit : "contain",
+        request: e.request ? { ...e.request, sends: e.sends, max_sends: 20 } : null,
+        rejections: e.rejections, blocked: e.blocked, can_restore: own,
+        can_request: !own && isAdmin && !e.blocked && e.rejections < 3 && e.sends < 20 && !e.purge_at }; };
+    // §14.2 mock: previous logos, previews, cache; §14.1 Logo.dev state.
+    const logosPrev = {}, previews = {};
+    let cacheDays = null;
+    // Card "a1" has a previous logo to show "Back to the previous logo".
+    logosPrev.a1 = logos.d4;
+    const logoDevState = qs.has("logooff") ? "disabled" : qs.has("nokey") ? "no_key" : "ready";
+    const saveLogo = (c, src, source) => { if (c.logo && logos[c.id]) { logosPrev[c.id] = logos[c.id]; c.logo_previous = c.logo; }
+      logos[c.id] = src; c.logo = { ...logoMeta(Date.now()), source }; emit({ event: "changed", card_ids: [c.id] }); };
+    const handlers = {
+      "loyalty_hub/cards/list": () => ({ cards }),
+      "loyalty_hub/cards/mark_used": (m) => { const c = find(m); console.log("mark_used", c.id);
+        if (c.last_used && Date.now() - Date.parse(c.last_used) < 600000) return { card: c };
+        const d = new Date(); c.use_count++; c.usage[((d.getDay() + 6) % 7) * 6 + Math.floor(d.getHours() / 4)]++;
+        c.last_used = d.toISOString(); return { card: c }; },
+      "loyalty_hub/cards/add_location": (m) => { const c = find(m);
+        if (c.locations.length >= 20) throw { code: "limit_reached", message: "max 20 locations" };
+        c.locations.push({ id: Math.random().toString(16).slice(2), lat: +m.latitude.toFixed(5), lon: +m.longitude.toFixed(5) });
+        return { card: c }; },
+      "loyalty_hub/cards/remove_location": (m) => { const c = find(m);
+        c.locations = c.locations.filter((l) => l.id !== m.location_id); return { card: c }; },
+      "loyalty_hub/voucher/adjust_balance": (m) => { const c = find(m); const amount = Math.round((m.new_balance - (c.balance ?? 0)) * 100) / 100;
+        if (!amount || !m.reason) throw { code: "invalid_format", message: "no change or missing reason" };
+        c.transactions.push({ id: Math.random().toString(16).slice(2), date: new Date().toISOString(), amount,
+          note: m.reason, user_id: "u1", type: "adjust" }); return { card: recalc(c) }; },
+      "loyalty_hub/admin_notice/accept": () => { prefs = { ...prefs, admin_notice_accepted: 1 }; return { prefs }; },
+      "loyalty_hub/cards/create": (m) => { const forOther = m.for_user_id && m.for_user_id !== "u1";
+        if (forOther) { checkRecipient(m.for_user_id);
+          if ("visibility" in m.card || "shared_with" in m.card) throw { code: "invalid_format", message: "sharing not allowed" }; }
+        const owner = forOther ? m.for_user_id : "u1";
+        const share = forOther ? (m.share_with_me !== false ? { visibility: "shared", shared_with: ["u1"] } : { visibility: "private", shared_with: [] }) : {};
+        const c = { ...base, ...m.card, ...share, id: Math.random().toString(16).slice(2), owner_id: owner,
+          transactions: [], balance: m.card.initial_balance ?? null, use_count: 0, last_used: null, created_at: new Date().toISOString(), updated_at: now,
+          can_edit: !forOther || isAdmin, can_manage: !forOther, admin_view: false, owner_name: names[owner], locations: [], usage: new Array(42).fill(0), logo: null,
+          created_by: forOther ? "u1" : null, created_by_name: forOther ? "Alice" : "" };
+        if (m.logo_upload) { logos[c.id] = "data:image/webp;base64," + m.logo_upload; c.logo = logoMeta(); }
+        else if (m.logo_lookup && c.logo_domain) { logos[c.id] = logos.d4; c.logo = { ...logoMeta(), source: "logo_dev" }; }
+        console.log("create", owner, JSON.stringify(share));
+        if (forOther && m.share_with_me === false) return { card: null };
+        cards.push(c); return { card: c }; },
+      "loyalty_hub/cards/transfer": (m) => { const c = find(m); if (c.owner_id !== "u1") throw { code: "unauthorized", message: "owner only" };
+        checkRecipient(m.to_user_id); c.owner_id = m.to_user_id; c.owner_name = names[m.to_user_id];
+        c.transferred_by_name = "Alice"; c.transferred_at = new Date().toISOString(); c.can_manage = false; c.can_edit = isAdmin;
+        c.shared_with = c.shared_with.filter((u) => u !== m.to_user_id);
+        if (m.keep_shared_with_me !== false && !c.shared_with.includes("*")) { c.visibility = "shared"; c.shared_with = [...c.shared_with, "u1"]; }
+        emit({ event: "changed", card_ids: [c.id] });
+        if (m.keep_shared_with_me === false && !(c.visibility === "shared" && c.shared_with.includes("*"))) { cards = cards.filter((x) => x !== c); return { card: null }; }
+        return { card: c }; },
+      "loyalty_hub/cards/clear_points_history": (m) => { needFeature("points_history"); const c = find(m); c.points_history = []; return { card: c }; },
+      "loyalty_hub/inbox/list": () => ({ items: inbox }),
+      "loyalty_hub/inbox/dismiss": () => { inbox = []; emit({ event: "inbox_changed" }); return {}; },
+      "loyalty_hub/features/set": (m) => { if (!isAdmin) throw { code: "unauthorized", message: "admin only" };
+        features = { ...features, ...m.features }; emit({ event: "settings_changed" }); return { features }; },
+      "loyalty_hub/nfc/link_start": (m) => { needFeature("nfc"); find(m);
+        setTimeout(() => { nfcTags = [...nfcTags.filter((x) => x.tag_id !== "tag-new"), { tag_id: "tag-new", card_id: m.card_id, tag_name: "" }];
+          emit({ event: "nfc_linked", card_id: m.card_id }); }, 3000);
+        return { expires_at: new Date(Date.now() + 60000).toISOString() }; },
+      "loyalty_hub/nfc/list": () => (needFeature("nfc"), { tags: nfcTags }),
+      "loyalty_hub/nfc/unlink": (m) => { needFeature("nfc"); nfcTags = nfcTags.filter((x) => x.tag_id !== m.tag_id); return { tags: nfcTags }; },
+      "todo/item/list": (m) => ({ items: m.entity_id === "todo.spesa" ? [
+        { uid: "1", summary: "Latte", status: "needs_action" }, { uid: "2", summary: "Pane", status: "needs_action" },
+        { uid: "3", summary: "Uova", status: "completed" }] : [] }),
+      "loyalty_hub/cards/update": (m) => { const c = cards.find((x) => x.id === m.card_id); Object.assign(c, m.changes);
+        emit({ event: "changed", card_ids: [c.id] }); return { card: c }; },
+      "loyalty_hub/cards/delete": (m) => { const c = find(m); cards = cards.filter((x) => x.id !== m.card_id);
+        trash.push(trashEntry(c)); emit({ event: "changed", card_ids: [c.id] }); emit({ event: "trash_changed" }); return {}; },
+      // §12.4 (mock): targeted reload and trash.
+      "loyalty_hub/cards/get": (m) => ({ cards: cards.filter((c) => m.card_ids.includes(c.id)),
+        missing: m.card_ids.filter((id) => !cards.some((c) => c.id === id)) }),
+      "loyalty_hub/trash/list": () => ({ items: trash.map(trashItem).filter((i) => i.is_own || isAdmin) }),
+      "loyalty_hub/trash/restore": (m) => { const e = findTrash(m); if (e.card.owner_id !== "u1") throw { code: "unauthorized", message: "not yours" };
+        trash = trash.filter((x) => x !== e); cards.push(e.card); emit({ event: "changed", card_ids: [e.card.id] });
+        emit({ event: "trash_changed" }); return { card: e.card }; },
+      "loyalty_hub/trash/purge": (m) => { trash.filter((e) => e.card.owner_id === "u1" && (!m.card_id || e.card.id === m.card_id))
+        .forEach((e) => { e.purge_at = new Date(Date.now() + 15 * 60000).toISOString(); e.request = null; });
+        emit({ event: "trash_changed" }); return { items: trash.map(trashItem) }; },
+      "loyalty_hub/trash/cancel_purge": (m) => { trash.filter((e) => e.card.owner_id === "u1" && (!m.card_id || e.card.id === m.card_id))
+        .forEach((e) => { e.purge_at = null; }); emit({ event: "trash_changed" }); return { items: trash.map(trashItem) }; },
+      "loyalty_hub/trash/request": (m) => { const e = findTrash(m); const it = trashItem(e);
+        if (!it.can_request) throw { code: e.blocked || e.sends >= 20 ? "limit_reached" : "unauthorized", message: "cannot request" };
+        e.sends++; e.request = { status: "pending", admin_name: "Alice", last_sent_at: new Date().toISOString() };
+        emit({ event: "trash_changed" }); return { item: trashItem(e), notified: true }; },
+      "loyalty_hub/trash/respond": (m) => { const e = findTrash(m); if (!e.request) throw { code: "not_found", message: "no request" };
+        if (m.response === "accept") { trash = trash.filter((x) => x !== e); cards.push(e.card); emit({ event: "changed", card_ids: [e.card.id] });
+          emit({ event: "trash_changed" }); return { card: e.card }; }
+        e.request.status = "rejected"; e.rejections++; e.blocked = m.response === "block" || e.rejections >= 3;
+        emit({ event: "trash_changed" }); return { item: trashItem(e) }; },
+      "auth/sign_path": (m) => { const id = /logo\/([^?]+)/.exec(m.path)[1]; const prev = m.path.includes("prev=1");
+        const src = prev ? logosPrev[id] : logos[id]; if (!src) throw { code: "not_found" }; return { path: src }; },
+      // §14 mock options: ?nokey=1 (Logo.dev without key), ?logooff=1 (Logo.dev disabled in the options).
+      "loyalty_hub/logo/providers": () => ({ providers: logoDevState === "ready" ? ["logo_dev", "logoapi", "website"] : ["logoapi", "website"],
+        logo_dev: logoDevState }),
+      "loyalty_hub/logo/upload": (m) => { const c = find(m); saveLogo(c, "data:image/webp;base64," + m.data_base64, "upload");
+        return { card: c }; },
+      "loyalty_hub/logo/lookup": (m) => { const c = find(m); saveLogo(c, logos.d4, m.provider === "auto" ? "logoapi" : m.provider);
+        c.logo_domain = m.domain; return { card: c }; },
+      "loyalty_hub/logo/preview": (m) => { const c = find(m); const id = "pv" + Math.random().toString(16).slice(2);
+        const data = logos.d4.split(",")[1]; previews[id] = { card_id: c.id, src: logos.d4, provider: m.provider === "auto" ? "logoapi" : m.provider };
+        return { preview_id: id, provider: previews[id].provider, mime: "image/png", data_base64: data, same: logos[c.id] === logos.d4 }; },
+      "loyalty_hub/logo/apply_preview": (m) => { const c = find(m); const pv = previews[m.preview_id];
+        if (!pv || pv.card_id !== c.id) throw { code: "not_found", message: "preview expired" };
+        delete previews[m.preview_id]; saveLogo(c, pv.src, pv.provider); return { card: c }; },
+      "loyalty_hub/logo/revert": (m) => { const c = find(m); if (!c.logo_previous) throw { code: "not_found", message: "no previous logo" };
+        const [cur, curMeta] = [logos[c.id], c.logo]; logos[c.id] = logosPrev[c.id]; c.logo = { ...c.logo_previous, version: Date.now() };
+        if (cur) { logosPrev[c.id] = cur; c.logo_previous = curMeta; } else { delete logosPrev[c.id]; c.logo_previous = null; }
+        emit({ event: "changed", card_ids: [c.id] }); return { card: c }; },
+      "loyalty_hub/logo/delete": (m) => { const c = find(m); if (c.logo) { logosPrev[c.id] = logos[c.id]; c.logo_previous = c.logo; }
+        c.logo = null; delete logos[c.id]; return { card: c }; },
+      "loyalty_hub/logo/refresh_all": () => { const total = cards.filter((c) => isAdmin || c.owner_id === "u1").length; let done = 0;
+        const tick = () => { done++; emit({ event: "logo_refresh", done, total, updated: Math.floor(done / 2), failed: 0, running: done < total });
+          if (done < total) setTimeout(tick, 400); }; setTimeout(tick, 400); return { total }; },
+      "loyalty_hub/logo/cache_set": (m) => { if (!isAdmin) throw { code: "unauthorized", message: "admin only" };
+        if (m.days !== null && !(m.days >= 1 && m.days <= 365)) throw { code: "invalid_format", message: "1-365" };
+        cacheDays = m.days; return { days: cacheDays }; },
+      "loyalty_hub/logo/test_key": () => { if (!isAdmin) throw { code: "unauthorized", message: "admin only" };
+        return { result: logoDevState === "no_key" ? "missing" : qs.get("keytest") ?? "ok" }; },
+      "loyalty_hub/shops/household": () => ({ shops: [{ name: "Panificio Bianchi", domain: null, color: "#8D6E63" },
+        { name: "Ferramenta Verdi", domain: "ferramentaverdi.example", color: "#2E7D32" }] }),
+      "loyalty_hub/users": () => ({ users: [{ id: "u2", name: "Bob" }, { id: "u3", name: "Carol" }] }),
+      "loyalty_hub/zones": () => ({ zones: [{ entity_id: "zone.super_rossi", name: "Super Rossi" }] }),
+      "loyalty_hub/notify_services": () => ({ services: ["mobile_app_phone"] }),
+      "loyalty_hub/prefs/get": () => ({ prefs }),
+      "loyalty_hub/prefs/set": (m) => (console.log("prefs/set", JSON.stringify(m.prefs)), prefs = { ...prefs, ...m.prefs }, { prefs }),
+      "loyalty_hub/settings": () => ({ price_compare: [{ name: "Example", url: "https://example.com/search?q={query}" },
+        { name: "Comparatore", url: "https://example.org/cerca?q={query}" }], expiry_warning_days: 7,
+        admin_full_access: qs.has("adminall"), admin_notice_epoch: 1,
+        logo_usage: isAdmin ? { files: 4, bytes: 180000, max_files: 1000, max_bytes: 200 * 1024 * 1024 } : null,
+        logo_dev: { state: logoDevState }, logo_cache_days: cacheDays, default_country: qs.get("country") ?? "it", currency: "EUR", features }),
+      "loyalty_hub/voucher/add_transaction": (m) => { const c = cards.find((x) => x.id === m.card_id);
+        const type = m.tx_type ?? "spend";
+        if (type === "topup" && !c.reloadable) throw { code: "invalid_format", message: "not reloadable" };
+        c.transactions.push({ id: Math.random().toString(16).slice(2), date: m.date ?? new Date().toISOString(),
+          amount: m.amount, note: m.note ?? "", user_id: "u1", type }); return { card: recalc(c) }; },
+      "loyalty_hub/voucher/delete_transaction": (m) => { const c = cards.find((x) => x.id === m.card_id);
+        c.transactions = c.transactions.filter((t) => t.id !== m.transaction_id); return { card: recalc(c) }; },
+      "loyalty_hub/import/sources": () => ({ wallet_assistant_local: true }),
+      "loyalty_hub/import": (m) => { console.log("import", m.format, m.from_local, m.import_logos, (m.data_base64 ?? "").length);
+        if (!m.data_base64 && !m.from_local) throw { code: "invalid_format", message: "no data" };
+        return m.format === "wallet_assistant"
+          ? (isAdmin ? { imported: 5, skipped: 1, errors: [], imported_for_others: 2, logos_imported: m.import_logos ? 2 : 0, logos_skipped_limit: 0 }
+            : { imported: 3, skipped: 1, errors: [], skipped_other_users: 2, logos_imported: m.import_logos ? 2 : 0 })
+          : { imported: 1, skipped: 0, errors: [] }; },
+    };
+    const hass = {
+      user: { id: "u1", name: "Alice", is_admin: isAdmin },
+      language: "it", locale: { language: "it" },
+      states: {
+        "person.alice": { entity_id: "person.alice", state: "Super Rossi", attributes: { user_id: "u1" } },
+        "zone.super_rossi": { entity_id: "zone.super_rossi", state: "1", attributes: { friendly_name: "Super Rossi", persons: ["person.alice"],
+          latitude: 45.47, longitude: 9.2, radius: 100 } },
+        "todo.spesa": { entity_id: "todo.spesa", state: "2", attributes: { friendly_name: "Spesa" } },
+      },
+      connection: {
+        async sendMessagePromise(msg) {
+          const h = handlers[msg.type];
+          if (!h) throw { code: "not_found", message: "mock: " + msg.type };
+          return JSON.parse(JSON.stringify(h(msg)));
+        },
+        async subscribeMessage(cb, msg) { console.log("subscribed", msg.type); subs.push(cb);
+          return () => { subs.splice(subs.indexOf(cb), 1); console.log("unsubscribed"); }; },
+      },
+    };
+    await import("/custom_components/loyalty_hub/frontend/loyalty-hub-panel.js");
+    await import("/custom_components/loyalty_hub/frontend/loyalty-hub-card.js");
+    document.querySelector("loyalty-hub-panel").hass = hass;
+    const card = document.getElementById("card");
+    card.setConfig({ type: "custom:loyalty-hub-card", max_items: 6 });
+    card.hass = hass;
+  </script>
+</body>
+</html>

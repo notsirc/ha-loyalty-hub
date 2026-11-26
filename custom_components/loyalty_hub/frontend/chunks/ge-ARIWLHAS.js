@@ -1,0 +1,1 @@
+import"./chunk-LO2NM3CE.js";var r=[{name:"Carrefour",domain:"carrefour.ge",color:"#004E9F",category:"grocery",aliases:["Carta SpesAmica","SpesAmica PAYBACK","Carrefour Club","Carrefour Market","Carrefour Express"]},{name:"Wissol",domain:"wissol.ge",color:"#00843D",category:"fuel"}];export{r as SHOPS};
