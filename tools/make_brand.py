@@ -89,8 +89,6 @@ def logo(h, text_color):
 
 icon(256).save(os.path.join(OUT, "icon.png"), optimize=True)
 icon(512).save(os.path.join(OUT, "icon@2x.png"), optimize=True)
-icon(256).save(os.path.join(OUT, "dark_icon.png"), optimize=True)
-icon(512).save(os.path.join(OUT, "dark_icon@2x.png"), optimize=True)
 logo(128, (33, 33, 48, 255)).save(os.path.join(OUT, "logo.png"), optimize=True)
 logo(256, (33, 33, 48, 255)).save(os.path.join(OUT, "logo@2x.png"), optimize=True)
 logo(128, (240, 240, 250, 255)).save(os.path.join(OUT, "dark_logo.png"), optimize=True)
